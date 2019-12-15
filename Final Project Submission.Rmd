@@ -1,0 +1,503 @@
+---
+title: "Final Project- Exploring Temperatures in California Between 1970-2017"
+author: "Chauncey Quam"
+date: "11/10/2019"
+output: html_document
+---
+setwd
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+##Load Packages needed for data analysis. 
+```{r}
+install.packages("tidyverse")
+install.packages("tidyr")
+install.packages("readxl")
+install.packages("dplyr")
+install.packages("lubridate")
+install.packages("ggplot2")
+install.packages("maps")
+library("tidyverse")
+library("tidyr")
+library("readxl")
+library("dplyr")
+library("lubridate")
+library("ggplot2")
+library("maps")
+```
+
+![]()
+
+#In this project I will be examining daily temperature observations for selected counties in California during the past 30 years. These counties were selected because they are all major agricultural producing counties in California. Extreme temperature can have a drastic effect on crop yield. As climate in California changes our current agricultural production regions of California might become less productive as temperature increases. This project attempts to explore instances of extreme temperatures, classified as temperatures of 105 degrees or higher.
+
+##I began this project by downloading temperature data from the [NOAA climate website](https://www.climate.gov/maps-data). This data is daily temperature observations from stations located within major agricultural producing counties of California. 
+
+
+##I loaded in data from CSV files and created one table with all of the temperature observation files.
+```{r read data}
+df_1 <- read_csv("CSV data files/1929501.csv", col_types = cols(TMAX = col_integer(), TMIN = col_integer()),col_names=TRUE)
+df_2 <- read_csv("CSV data files/1929502.csv", col_types = cols(TMAX = col_integer(), TMIN = col_integer()),col_names=TRUE)
+df_3 <- read_csv("CSV data files/1929482.csv", col_types = cols(TMAX = col_integer(), TMIN = col_integer()),col_names=TRUE)
+df_4 <- read_csv("CSV data files/1929489.csv", col_types = cols(TMAX = col_integer(), TMIN = col_integer()),col_names=TRUE)
+df_5 <- read_csv("CSV data files/1929497.csv", col_types = cols(TMAX = col_integer(), TMIN = col_integer()),col_names=TRUE)
+
+all_data <- rbind(df_1, df_2, df_3, df_4, df_5)
+head(all_data)
+```
+
+##Cleaning Dataset
+###I decided to omit all NA variables for temperature using the code below. 
+```{r remove NAs}
+all_data <- all_data[complete.cases(all_data$TMAX), ]
+```
+
+###I seperated the full date into three columns by year, month, day.
+```{r parse dates}
+all_data <- separate(all_data,DATE, c("YEAR", "MONTH", "DAY"),"-")
+```
+
+##Isolating name of town. 
+###I am doing this by first taking the names column and parcing into seperate columns, seperating by a space or a comma. I then drop all added columns becides CITY.
+```{r parse cities}
+all_data <- separate(all_data, NAME, c("CITY","STATE","COUNTRY", "x1", "x2", "x3", "x4"), 
+    sep = "([\\ \\,])")
+all_data <- subset(all_data, select = -c(STATE, COUNTRY,x1,x2,x3,x4))
+all_data <- unite(all_data, CITY, select =c(CITY), sep = " ")
+head(all_data)
+```
+
+####Check to see what every city name is.
+```{r check city names}
+unique(all_data$CITY) 
+length(unique(all_data$CITY))
+all_data
+```
+
+###I have selected the first word for each town name. I will now add the words that were omitted from town names manually so that town names are complete in the dataset.
+```{r change city names}
+id <- c("SQUAW", "GOLD", "IMPERIAL", "RED", "EAST")
+names<- c("SQUAW LAKE", "GOLD ROCK RANCH", "IMPERIAL SAND DUNES", "RED BLUFF", "EAST PARK RESERVOIR")
+
+for (i in c(1:length(id))) {
+  all_data$CITY <- ifelse(all_data$CITY == id[i],
+                          yes = names[i],
+                          no = all_data$CITY)
+}
+unique(all_data$CITY)
+```
+
+```{r remove double counts}
+all_data <- all_data %>%
+       distinct(CITY,YEAR,MONTH,DAY, .keep_all = TRUE)
+nrow(all_data)
+```
+
+##counting total occurances of extreme temperature by year and by city
+
+```{r occurances of temp above 105}
+#create dummy variable for when average temp is above 105
+# avg count above 105 btwn 1989-2010. 
+all_data2 <- all_data %>%
+  mutate(above105 = TMAX >= 105,
+         above105 = as.numeric(above105)) %>%
+  filter(above105==1) %>%
+  group_by(CITY,YEAR) %>%
+  summarize(count = n()) %>%
+  select(CITY, YEAR, count) %>%
+  spread(YEAR, count)
+all_data2
+```
+
+```{r}
+
+```
+
+
+#we can see if certain cities have volatile counts or trends
+```{r}
+all_data4 <- all_data %>%
+  mutate(above105 = TMAX >= 105,
+         above105 = as.numeric(above105)) %>%
+  filter(above105==1) %>%
+  group_by(YEAR) %>%
+  summarize(count = n()) %>%
+  select(YEAR, count)
+all_data4
+```
+
+```{r}
+ggplot(all_data4) +
+  geom_line(mapping = aes(x=as.numeric(YEAR), y= count), color= "blue")
+```
+
+
+#counts dont mean anything, lets use averages
+#Create new table with spread of count times temp was above 105 each year in each county
+
+```{r average across all years}
+all_data3 <- all_data %>%
+  mutate(above105 = TMAX >= 105,
+         above105 = as.numeric(above105)) %>%
+  filter(above105==1) %>%
+  group_by(CITY,YEAR, LATITUDE,LONGITUDE) %>%
+  summarize(count = n()) %>%
+  group_by(CITY, LATITUDE, LONGITUDE) %>%
+  summarize(avg = mean(count)) 
+head(all_data3) 
+```
+
+#lets look at those averages on a map
+
+```{r}
+ca_map <- map_data("state")
+ca_map <- ca_map %>%
+  filter(region == "california")
+```
+
+
+#This is my map of the points of the station locations that were used in California. It's color is relevant to school spirit.
+```{r}
+ggplot() +
+  geom_polygon(data=ca_map, mapping=aes(x = long*.995, y = lat*.99 ), inherit.aes = FALSE, fill = "gold", color = "blue", alpha = .9) +
+  geom_point(data=all_data3, mapping=aes(x = LONGITUDE, y = LATITUDE, color=avg))
+```
+
+```{r average across all years}
+all_data5 <- all_data %>%
+  mutate(above105 = TMAX >= 105,
+         above105 = as.numeric(above105)) %>%
+  filter(above105==1) %>%
+  group_by(CITY,YEAR) %>%
+  summarize(count = n()) %>%
+  group_by(YEAR) %>%
+  summarize(avg = mean(count))
+head(all_data5) 
+```
+
+
+#average above 105 of all cities per year with 95% confidence interval
+#signifcance indicated by shifts beyond 95% confidence range each year
+```{r}
+# some graphs
+
+all_data$above105 <- all_data$TMAX >= 105
+
+all_data %>%
+  group_by(YEAR) %>% 
+  summarize(meanmax = mean(above105),
+            count = n(),
+            stdev = sd(above105),
+            upper = meanmax + (stdev*1.96/sqrt(count)),
+            lower = meanmax - (stdev*1.96/sqrt(count))) %>%
+  ggplot() +
+  geom_point(aes(x = as.character(YEAR), y = meanmax)) +
+  geom_linerange(aes(x = as.character(YEAR), ymax = upper, ymin = lower))
+
+
+```
+
+#let's see causality with regression
+#significant positive temperature change over time
+
+```{r}
+regression_model <- lm(TMAX ~ ELEVATION + as.numeric(YEAR) + factor(CITY), data = all_data)
+summary(regression_model)
+```
+
+
+```{r}
+all_data%>%
+  group_by(YEAR,CITY) %>% 
+  summarize(meanmax = mean(above105),
+            count = n(),
+            stdev = sd(above105),
+            upper = meanmax + (stdev*1.96/sqrt(count)),
+            lower = meanmax - (stdev*1.96/sqrt(count))) %>%
+  ggplot() +
+  geom_point(aes(x = as.character(YEAR), y = meanmax, color = CITY), position = position_dodge(width = 1.5)) +
+  geom_linerange(aes(x = as.character(YEAR), ymax = upper, ymin = lower, color = CITY), position = position_dodge(width = 1.5))
+```
+
+#shows each cities time trend
+```{r}
+all_data %>%
+  group_by(YEAR,CITY) %>% 
+  summarize(meanmax = mean(above105),
+            count = n(),
+            stdev = sd(above105),
+            upper = meanmax + (stdev*1.96/sqrt(count)),
+            lower = meanmax - (stdev*1.96/sqrt(count))) %>%
+  ggplot() +
+  geom_point(aes(x = as.character(YEAR), y = meanmax)) +
+  geom_linerange(aes(x = as.character(YEAR), ymax = upper, ymin = lower)) +
+  facet_wrap(~CITY) 
+
+```
+
+```{r}
+# notice where the data gaps are, the differences per city on how the trends go
+
+
+
+##
+
+
+###
+
+
+# there are more than one station per day per city
+# find a way to drop the observation or combine them for an average value
+
+all_data <- all_data %>%
+  group_by(CITY,YEAR,MONTH,DAY) %>%
+  mutate(count = n()) 
+
+unique(all_data$count)
+
+all_data <- all_data %>%
+  filter(count == 2)
+
+head(all_data2)
+```
+```{r}
+  
+
+```
+
+
+```{r}
+  
+```
+
+```{r}
+?register_google
+```
+
+
+
+##Identifying instances of extreme temperature.
+###Selecting dates when temp is above 105 for each city
+```{r}
+stat_group <- all_data %>%
+  group_by(CITY, YEAR) %>%
+  filter(TMAX>=105)
+stat_group
+unique(stat_group$CITY)
+```
+
+#Sum of times the temp was recorded to be above 105 in the selected cities in the given year.
+```{r}
+cities_w_CRS <- stat_group %>%
+  select(CITY, LATITUDE, LONGITUDE)
+
+  
+cities_w_CRS <- unique(cities_w_CRS)
+cities_w_CRS
+```
+
+#ASK JAHON: LOOK INTO CREATING A VECTOR FOR THESE INSTEAD AND JOINING TOGETHER
+#Creating individual tables with count of increased temp, by city, by year and joining together. 
+# header
+## smaller header
+
+```{r}
+t_max_1989 <- all_data %>%
+  filter(YEAR=="1990", TMAX>=105) %>%
+  count(CITY) %>%
+  rename("1989" = n)
+t_max_1989
+
+t_max_1990 <- all_data[all_data$TMAX>=105 & all_data$YEAR == "1990",] %>%
+  count(CITY) %>%
+  rename("1990" = n)
+t_max_1991 <- all_data[all_data$TMAX>=105 & all_data$YEAR == "1991",] %>%
+  count(CITY) %>%
+  rename("1991" = n)
+t_max_1992 <- all_data[all_data$TMAX>=105 & all_data$YEAR == "1992",] %>%
+  count(CITY) %>%
+  rename("1992" = n)
+t_max_1993 <- all_data[all_data$TMAX>=105 & all_data$YEAR == "1993",] %>%
+  count(CITY) %>%
+  rename("1993" = n)
+t_max_1994 <- all_data[all_data$TMAX>=105 & all_data$YEAR == "1994",] %>%
+  count(CITY) %>%
+  rename("1994" = n)
+t_max_1995 <- all_data[all_data$TMAX>=105 & all_data$YEAR == "1995",] %>%
+  count(CITY) %>%
+  rename("1995" = n)
+t_max_1996 <- all_data[all_data$TMAX>=105 & all_data$YEAR == "1996",] %>%
+  count(CITY) %>%
+  rename("1996" = n)
+t_max_1997 <- all_data[all_data$TMAX>=105 & all_data$YEAR == "1997",] %>%
+  count(CITY) %>%
+  rename("1997" = n)
+t_max_1998<- all_data[all_data$TMAX>=105 & all_data$YEAR == "1998",] %>%
+  count(CITY) %>%
+  rename("1998" = n)
+t_max_1999 <- all_data[all_data$TMAX>=105 & all_data$YEAR == "1999",] %>%
+  count(CITY) %>%
+  rename("1999" = n)
+t_max_2000 <- all_data[all_data$TMAX>=105 & all_data$YEAR == "2000",] %>%
+  count(CITY) %>%
+  rename("2000" = n)
+t_max_2001 <- all_data[all_data$TMAX>=105 & all_data$YEAR == "2001",] %>%
+  count(CITY) %>%
+  rename("2001" = n)
+t_max_2002 <- all_data[all_data$TMAX>=105 & all_data$YEAR == "2002",] %>%
+  count(CITY) %>%
+  rename("2002"= n)
+t_max_2003 <- all_data[all_data$TMAX>=105 & all_data$YEAR == "2003",] %>%
+  count(CITY) %>%
+  rename("2003" = n)
+t_max_2004 <- all_data[all_data$TMAX>=105 & all_data$YEAR == "2004",] %>%
+  count(CITY) %>%
+  rename("2004" = n)
+t_max_2005 <- all_data[all_data$TMAX>=105 & all_data$YEAR == "2005",] %>%
+  count(CITY) %>%
+  rename("2005" = n)
+t_max_2006 <- all_data[all_data$TMAX>=105 & all_data$YEAR == "2006",] %>%
+  count(CITY) %>%
+  rename("2006" = n)
+t_max_2007 <- all_data[all_data$TMAX>=105 & all_data$YEAR == "2007",] %>%
+  count(CITY) %>%
+  rename("2007" = n)
+t_max_2008 <- all_data[all_data$TMAX>=105 & all_data$YEAR == "2008",] %>%
+  count(CITY) %>%
+  rename("2008" = n)
+t_max_2009 <- all_data[all_data$TMAX>=105 & all_data$YEAR == "2009",] %>%
+  count(CITY) %>%
+  rename("2009" = n)
+t_max_2010 <- all_data[all_data$TMAX>=105 & all_data$YEAR == "2010",] %>%
+  count(CITY) %>%
+  rename("2010" = n)
+t_max_2011 <- all_data[all_data$TMAX>=105 & all_data$YEAR == "2011",] %>%
+  count(CITY) %>%
+  rename("2011" = n)
+t_max_2012 <- all_data[all_data$TMAX>=105 & all_data$YEAR == "2012",] %>%
+  count(CITY) %>%
+  rename("2012" = n)
+t_max_2013 <- all_data[all_data$TMAX>=105 & all_data$YEAR == "2013",] %>%
+  count(CITY) %>%
+  rename("2013" = n)
+t_max_2014 <- all_data[all_data$TMAX>=105 & all_data$YEAR == "2014",] %>%
+  count(CITY) %>%
+  rename("2014" = n)
+t_max_2015 <- all_data[all_data$TMAX>=105 & all_data$YEAR == "2015",] %>%
+  count(CITY) %>%
+  rename("2015" = n)
+t_max_2016 <- all_data[all_data$TMAX>=105 & all_data$YEAR == "2016",] %>%
+  count(CITY) %>%
+  rename("2016" = n)
+t_max_2017 <- all_data[all_data$TMAX>=105 & all_data$YEAR == "2017",] %>%
+  count(CITY) %>%
+  rename("2017" = n)
+t_max_2018 <- all_data[all_data$TMAX>=105 & all_data$YEAR == "2018",] %>%
+  count(CITY) %>%
+  rename("2018" = n)
+
+t_max_test <- left_join(cities_w_CRS, t_max_1990, by = 'CITY') %>% 
+  group_by(CITY)
+t_max_test <- left_join(t_max_1989, t_max_1990, by = 'CITY')
+t_max_test <- left_join(t_max_test, t_max_1991, by = 'CITY')
+t_max_test <- left_join(t_max_test, t_max_1992, by = 'CITY')
+t_max_test <- left_join(t_max_test, t_max_1993, by = 'CITY')
+t_max_test <- left_join(t_max_test, t_max_1994, by = 'CITY')
+t_max_test <- left_join(t_max_test, t_max_1995, by = 'CITY')
+t_max_test <- left_join(t_max_test, t_max_1996, by = 'CITY')
+t_max_test <- left_join(t_max_test, t_max_1997, by = 'CITY')
+t_max_test <- left_join(t_max_test, t_max_1998, by = 'CITY')
+t_max_test <- left_join(t_max_test, t_max_1999, by = 'CITY')
+t_max_test <- left_join(t_max_test, t_max_2000, by = 'CITY')
+t_max_test <- left_join(t_max_test, t_max_2001, by = 'CITY')
+t_max_test <- left_join(t_max_test, t_max_2002, by = 'CITY')
+t_max_test <- left_join(t_max_test, t_max_2003, by = 'CITY')
+t_max_test <- left_join(t_max_test, t_max_2004, by = 'CITY')
+t_max_test <- left_join(t_max_test, t_max_2005, by = 'CITY')
+t_max_test <- left_join(t_max_test, t_max_2006, by = 'CITY')
+t_max_test <- left_join(t_max_test, t_max_2007, by = 'CITY')
+t_max_test <- left_join(t_max_test, t_max_2008, by = 'CITY')
+t_max_test <- left_join(t_max_test, t_max_2009, by = 'CITY')
+t_max_test <- left_join(t_max_test, t_max_2010, by = 'CITY')
+t_max_test <- left_join(t_max_test, t_max_2011, by = 'CITY')
+t_max_test <- left_join(t_max_test, t_max_2012, by = 'CITY')
+t_max_test <- left_join(t_max_test, t_max_2013, by = 'CITY')
+t_max_test <- left_join(t_max_test, t_max_2014, by = 'CITY')
+t_max_test <- left_join(t_max_test, t_max_2015, by = 'CITY')
+t_max_test <- left_join(t_max_test, t_max_2016, by = 'CITY')
+t_max_test <- left_join(t_max_test, t_max_2017, by = 'CITY')
+t_max_test <- left_join(t_max_test, t_max_2018, by = 'CITY')
+t_max_test
+
+
+t_max_by_year <- t_max_test %>%
+  gather(year, days, -CITY) %>%
+  select(-CITY) %>%
+  group_by(year)  %>%
+  mutate(cum_sum = cumsum(days))
+t_max_by_year
+
+tmax_w_1988 <- t_max_1989 %>%
+  mutate(days_above_105= t_max_1998$n)
+```
+
+```{r}
+
+```
+
+
+
+```{r}
+t_max_2017 <- all_data[all_data$TMAX>=105 & all_data$YEAR == "2017",]
+t_max_2017
+t_max <- t_max_2017 %>%
+  count(TMAX)
+  
+t_max_2017
+
+
+```
+
+```{r}
+t_max_2018 <- all_data[all_data$TMAX>=105 & all_data$YEAR == "2018",]
+t_max_2018
+tally(t_max_2018)
+unique(t_max_2018$CITY)
+t_max_2018 %>%
+  count(CITY)
+```
+
+
+```{r}
+#To select values above a certain Temp Range
+#myData[all_data$DATE >= "1970-01-01" & all_data$DATE <= "2016-06-27",]
+
+```
+
+
+```{r}
+summary(all_data$NAME)
+unique(all_data$NAME)
+head(all_data$NAME)
+setDT(test_df)
+sapply(test_df, class)
+as-factor(all_data$TMAX)
+sapply(combined_df, class)
+```
+
+class(all_data)
+dim(all_data)
+names(all_data)
+str(all_data)
+hist(all_data$TMAX)
+
+```{r}
+tally(t_max_1989)
+unique(t_max_1989$CITY)
+tmax_count_1989 <-t_max_1989 %>%
+  count(CITY)
+tmax_count_1989
+```
+
+
+
