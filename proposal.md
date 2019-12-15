@@ -3,10 +3,15 @@
 
 Please prepare a short proposal on your final project idea for next **Thursday, Nov 2**. The proposal should include:
 
-- Title & description of the project
+- Title & description of the project:
+-Temperature Rise in Major Agricultural Counties of California
+This project will explore temperature observations in counties that have been selected because of their ranking in top agricultural producing counties in the state. Agriculture production begins to decrease when temperatures cross a threshold, relative to the specific crop being grown.
 - Your name & partner's name
+Chauncey Quam
 - A description of the data required, and how it will be obtained (e.g. URL/DOI to data source)
+The data I will be using is temperature data sourced from  
 - 3 questions / analysis tasks you will perform on the data; in the spirit of the assignments we have been doing.
+
 
 *You may choose to work with your partner or independently on the final project. Please indicate which clearly in your proposal.*
 

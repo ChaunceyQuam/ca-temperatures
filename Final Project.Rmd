@@ -26,14 +26,24 @@ gather()
 #save object <- saveRDS(all_results.rds) *Need to ignore in push to github.
 #piggyback::pb_upload("filename.rds")
 
+install.packages("piggyback")
+install.packages("maps")
+library("piggyback")
 library("tidyverse")
 library("tidyr")
 library("readxl")
 library("dplyr")
 library("lubridate")
 library("ggplot2")
-
+library("maps")
 ```
+
+```{r}
+pb_upload("CSV data files/1929501.csv", "CSV data files/1929502.csv", "CSV data files/1929482.csv", "CSV data files/1929489.csv", "CSV data files/1929497.csv", repo = "")
+```
+
+
+
 setwd("/Users/chaunceyquam/Desktop/SeniorThesis/RProjectSeniorThesis/)
 #Load in data from CSV files and create one table.
 ```{r}
@@ -46,39 +56,45 @@ df_5 <- read_csv("CSV data files/1929497.csv", col_types = cols(TMAX = col_integ
 
 
 all_data <- rbind(df_1, df_2, df_3, df_4, df_5)
-all_data
+head(all_data)
 ```
 
 #Need to remove all NA variables. This omits rows with any missing values for Temperature
 ```{r}
 
 all_data <- all_data[complete.cases(all_data$TMAX), ]
-all_data
 #Seperate the full date into three columns for year, month, day.
 all_data <- separate(all_data,DATE, c("YEAR", "MONTH", "DAY"),"-")
-all_data
 ```
 
-#Get name of town isolated. 
-#Doing this by first taking singular names column and parcing into columns.
-#Then drop added columns becides CITY and STATE column
-#Add first column and second together to get complete town name in CITY Column
+#Isolating name of town. 
+#I am doing this by first taking the names column and parcing into seperate columns, seperating by a space or a comma. I then drop all added columns becides CITY.Add first column and second together to get complete town name in CITY Column
 ```{r}
 all_data <- separate(all_data, NAME, c("CITY","STATE","COUNTRY", "x1", "x2", "x3", "x4"), 
     sep = "([\\ \\,])")
-all_data
-
-
 all_data <- subset(all_data, select = -c(STATE, COUNTRY,x1,x2,x3,x4))
-all_data
-
-
 all_data <- unite(all_data, CITY, select =c(CITY), sep = " ")
-all_data
+head(all_data)
+```
+
 #Check to see what every city name is.
+```{r}
 unique(all_data$CITY) 
 length(unique(all_data$CITY))
-all_data 
+all_data
+```
+
+#I have selected the first word for each town name. I will now add the words that were omitted from town names manually.
+```{r}
+id <- c("SQUAW", "GOLD", "IMPERIAL", "RED", "EAST")
+names<- c("SQUAW LAKE", "GOLD ROCK RANCH", "IMPERIAL SAND DUNES", "RED BLUFF", "EAST PARK RESERVOIR")
+
+for (i in c(1:length(id))) {
+  all_data$CITY <- ifelse(all_data$CITY == id[i],
+                          yes = names[i],
+                          no = all_data$CITY)
+}
+unique(all_data$CITY)
 ```
 
 #Selecting times when temp is above 105 for each city
@@ -89,13 +105,10 @@ stat_group <- all_data %>%
   filter(TMAX>105)
 stat_group
 unique(stat_group$CITY)
-
 ```
 
 
 #Sum of times the temp was recorded to be above 105 in the selected cities in the given year.
-
-
 ```{r}
 cities_w_CRS <- all_data %>%
   select(CITY, LATITUDE, LONGITUDE)
@@ -109,9 +122,9 @@ cities_w_CRS
 #Creating individual tables with count of increased temp, by city, by year and joining together. 
 ```{r}
 t_max_1989 <- all_data %>%
-  filter(YEAR=="1990", TMAX>=105)
+  filter(YEAR=="1990", TMAX>=105) %>%
   count(CITY) %>%
-  rename("2001" = n)
+  rename("1989" = n)
 t_max_1989
 
 t_max_1990 <- all_data[all_data$TMAX>=105 & all_data$YEAR == "1990",] %>%
@@ -149,58 +162,58 @@ t_max_2000 <- all_data[all_data$TMAX>=105 & all_data$YEAR == "2000",] %>%
   rename("2000" = n)
 t_max_2001 <- all_data[all_data$TMAX>=105 & all_data$YEAR == "2001",] %>%
   count(CITY) %>%
-  rename("2000" = n)
+  rename("2001" = n)
 t_max_2002 <- all_data[all_data$TMAX>=105 & all_data$YEAR == "2002",] %>%
   count(CITY) %>%
-  rename(2001= n)
+  rename("2002"= n)
 t_max_2003 <- all_data[all_data$TMAX>=105 & all_data$YEAR == "2003",] %>%
   count(CITY) %>%
-  rename("Count of Days Above 105" = n)
+  rename("2003" = n)
 t_max_2004 <- all_data[all_data$TMAX>=105 & all_data$YEAR == "2004",] %>%
   count(CITY) %>%
-  rename("Count of Days Above 105" = n)
+  rename("2004" = n)
 t_max_2005 <- all_data[all_data$TMAX>=105 & all_data$YEAR == "2005",] %>%
   count(CITY) %>%
-  rename("Count of Days Above 105" = n)
+  rename("2005" = n)
 t_max_2006 <- all_data[all_data$TMAX>=105 & all_data$YEAR == "2006",] %>%
   count(CITY) %>%
-  rename("Count of Days Above 105" = n)
+  rename("2006" = n)
 t_max_2007 <- all_data[all_data$TMAX>=105 & all_data$YEAR == "2007",] %>%
   count(CITY) %>%
-  rename("Count of Days Above 105" = n)
+  rename("2007" = n)
 t_max_2008 <- all_data[all_data$TMAX>=105 & all_data$YEAR == "2008",] %>%
   count(CITY) %>%
-  rename("Count of Days Above 105" = n)
+  rename("2008" = n)
 t_max_2009 <- all_data[all_data$TMAX>=105 & all_data$YEAR == "2009",] %>%
   count(CITY) %>%
-  rename("Count of Days Above 105" = n)
+  rename("2009" = n)
 t_max_2010 <- all_data[all_data$TMAX>=105 & all_data$YEAR == "2010",] %>%
   count(CITY) %>%
-  rename("Count of Days Above 105" = n)
+  rename("2010" = n)
 t_max_2011 <- all_data[all_data$TMAX>=105 & all_data$YEAR == "2011",] %>%
   count(CITY) %>%
-  rename("Count of Days Above 105" = n)
+  rename("2011" = n)
 t_max_2012 <- all_data[all_data$TMAX>=105 & all_data$YEAR == "2012",] %>%
   count(CITY) %>%
-  rename("Count of Days Above 105" = n)
+  rename("2012" = n)
 t_max_2013 <- all_data[all_data$TMAX>=105 & all_data$YEAR == "2013",] %>%
   count(CITY) %>%
-  rename("Count of Days Above 105" = n)
+  rename("2013" = n)
 t_max_2014 <- all_data[all_data$TMAX>=105 & all_data$YEAR == "2014",] %>%
   count(CITY) %>%
-  rename("Count of Days Above 105" = n)
+  rename("2014" = n)
 t_max_2015 <- all_data[all_data$TMAX>=105 & all_data$YEAR == "2015",] %>%
   count(CITY) %>%
-  rename("Count of Days Above 105" = n)
+  rename("2015" = n)
 t_max_2016 <- all_data[all_data$TMAX>=105 & all_data$YEAR == "2016",] %>%
   count(CITY) %>%
-  rename("Count of Days Above 105" = n)
+  rename("2016" = n)
 t_max_2017 <- all_data[all_data$TMAX>=105 & all_data$YEAR == "2017",] %>%
   count(CITY) %>%
-  rename("Count of Days Above 105" = n)
+  rename("2017" = n)
 t_max_2018 <- all_data[all_data$TMAX>=105 & all_data$YEAR == "2018",] %>%
   count(CITY) %>%
-  rename("Count of Days Above 105" = n)
+  rename("2018" = n)
 
 t_max_test <- left_join(cities_w_CRS, t_max_1990, by = 'CITY') %>% 
   group_by(CITY)
@@ -235,20 +248,33 @@ t_max_test <- left_join(t_max_test, t_max_2017, by = 'CITY')
 t_max_test <- left_join(t_max_test, t_max_2018, by = 'CITY')
 t_max_test
 
-  
-test_1 <- unite(all_data, CITY, select =-c(CITY), sep = " ")
-all_data <- subset(all_data, select = -c(STATE, COUNTRY,x1,x2,x3,x4))
-all_data
+
+t_max_by_year <- t_max_test %>%
+  gather(year, days, -CITY) %>%
+  select(-CITY) %>%
+  group_by(year)  %>%
+  mutate(cum_sum = cumsum(days))
+t_max_by_year
 
 tmax_w_1988 <- t_max_1989 %>%
   mutate(days_above_105= t_max_1998$n)
 
-t_max_plot <- t_max_test %>% 
-  ggplot(t_max_test, aes()))
+# t_max_plot <- t_max_test %>% 
+#   ggplot(t_max_test, aes()))
 
-ggplot(t_max_test, aes(x = t_max_test , y= CITY)) + geom_line(aes(y=no_smoothing), color='green') + geom_line(aes(y=lowess), color='blue') + xlab("Year") + ylab("Global_Temperature") +
-theme_dark()
+# ggplot(t_max_test, aes(x = year , y= days)) + geom_line(aes(y=no_smoothing), color='green') + geom_line(aes(y=lowess), color='blue') + xlab("Year") + ylab("Global_Temperature") +
+# theme_dark()
  
+# t_max_by_year %>% ggplot(aes(x = factor(year), group = CITY, color = CITY)) +
+#   geom_line(aes(y = days), lwd = 1.0) +
+#   labs(title = "Cumulative Vertebrate Species as EX or EW by the IUCN 2019",
+#        y = 'Cumulative extinctions as % of UCN-evaluated species',
+#        x = "Time interval") + 
+#   scale_x_discrete(labels=c("1500-1600", "1600-1700", "1700-1800", "1800-1900", "1900-2000")) +
+#   scale_y_continuous(breaks = seq(0,2, by=0.2)) +
+#   theme_classic() +
+#   theme(text = element_text(size=10))
+    
 
 
 ```
@@ -362,5 +388,114 @@ tmax_count_1989 <-t_max_1989 %>%
   count(CITY)
 tmax_count_1989
 ```
+
+```{r}
+#create dummy variable for when average temp is above 105
+
+all_data2 <- all_data %>%
+  mutate(above105 = TMAX > 105) %>%
+  filter(above105==TRUE) %>%
+  group_by(CITY,YEAR) %>%
+  summarize(count = n(),
+            avg = mean(above105)) 
+all_data2 
+head(all_data2)
+View(head(all_data2))
+mean(all_data2$above105) #this value is a per station per day per city mean - average occurances that temp is above 105
+
+
+
+# some graphs
+
+all_data2%>%
+  filter(CITY == 'BLYTHE') %>%
+  group_by(YEAR,CITY) %>% 
+  summarize(meanmax = mean(above105),
+            count = n(),
+            stdev = sd(above105),
+            upper = meanmax + (stdev*1.96/sqrt(count)),
+            lower = meanmax - (stdev*1.96/sqrt(count))) %>%
+  ggplot() +
+  geom_point(aes(x = as.character(YEAR), y = meanmax)) +
+  geom_linerange(aes(x = as.character(YEAR), ymax = upper, ymin = lower))
+
+all_data2%>%
+  group_by(YEAR,CITY) %>% 
+  summarize(meanmax = mean(above105),
+            count = n(),
+            stdev = sd(above105),
+            upper = meanmax + (stdev*1.96/sqrt(count)),
+            lower = meanmax - (stdev*1.96/sqrt(count))) %>%
+  ggplot() +
+  geom_point(aes(x = as.character(YEAR), y = meanmax, color = CITY), position = position_dodge(width = 1.5)) +
+  geom_linerange(aes(x = as.character(YEAR), ymax = upper, ymin = lower, color = CITY), position = position_dodge(width = 1.5))
+
+all_data2%>%
+  group_by(YEAR,CITY) %>% 
+  summarize(meanmax = mean(above105),
+            count = n(),
+            stdev = sd(above105),
+            upper = meanmax + (stdev*1.96/sqrt(count)),
+            lower = meanmax - (stdev*1.96/sqrt(count))) %>%
+  ggplot() +
+  geom_point(aes(x = as.character(YEAR), y = meanmax)) +
+  geom_linerange(aes(x = as.character(YEAR), ymax = upper, ymin = lower)) +
+  facet_wrap(~CITY) 
+
+# notice where the data gaps are, the differences per city on how the trends go
+
+regression_model <- lm(TMAX ~ ELEVATION + as.numeric(YEAR) + I(as.numeric(YEAR) - 1)+ factor(CITY), data = all_data)
+summary(regression_model)
+
+
+##
+
+
+###
+
+
+# there are more than one station per day per city
+# find a way to drop the observation or combine them for an average value
+
+all_data <- all_data %>%
+  group_by(CITY,YEAR,MONTH,DAY) %>%
+  mutate(count = n()) 
+
+unique(all_data$count)
+
+all_data <- all_data %>%
+  filter(count == 2)
+
+head(all_data2)
+```
+```{r}
+  
+ggplot() +
+  geom_point(data=all_data, mapping=aes(x = LONGITUDE, y = LATITUDE)) + geom_polygon(data=ca_map, mapping=aes(x = x, y = y))
+```
+
+
+```{r}
+usmap::
+
+ca_map <- map_data("state")
+ca_map <- ca_map %>%
+  filter(region == "california")
+  
+```
+
+```{r}
+?register_google
+```
+
+
+#This is my map of the points of the station locations that were used in California. It's color is relevant to school spirit.
+```{r}
+ggplot() +
+  geom_polygon(data=ca_map, mapping=aes(x = long*.995, y = lat*.99 ), inherit.aes = FALSE, fill = "gold", color = "blue", alpha = .9) +
+  geom_point(data=all_data, mapping=aes(x = LONGITUDE, y = LATITUDE, fill=), color = "blue")
+```
+
+
 
 
