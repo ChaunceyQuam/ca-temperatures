@@ -2,37 +2,35 @@
 title: "Final Project- Exploring Temperatures in California Between 1989-2018"
 author: "Chauncey Quam"
 date: "11/10/2019"
-output: html_document
+output:
+  html_document: default
 ---
-setwd
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
 
-##Load Packages needed for data analysis. 
-```{r}
+```{r setup, include=FALSE}
+```
+### In this project I will be examining daily temperature observations for selected counties in California during the past 30 years. These counties were selected because they are all major agricultural producing counties in California. Extreme temperature can have a drastic effect on crop yield. As climate in California changes our current agricultural production regions of California might become less productive as temperature increases. This project attempts to explore instances of extreme temperatures, classified as temperatures of 105 degrees or higher.
+
+
+#### Load Packages needed for data analysis. 
+```{r load packages}
 # install.packages("tidyverse")
 # install.packages("tidyr")
-# install.packages("readxl")
 # install.packages("dplyr")
 # install.packages("lubridate")
 # install.packages("ggplot2")
 # install.packages("maps")
 library("tidyverse")
-library("tidyr")
-library("readxl")
 library("dplyr")
 library("lubridate")
 library("ggplot2")
 library("maps")
 ```
 
-#In this project I will be examining daily temperature observations for selected counties in California during the past 30 years. These counties were selected because they are all major agricultural producing counties in California. Extreme temperature can have a drastic effect on crop yield. As climate in California changes our current agricultural production regions of California might become less productive as temperature increases. This project attempts to explore instances of extreme temperatures, classified as temperatures of 105 degrees or higher.
 
-##Reading Data Files
-###I began this project by downloading temperature data from the [NOAA climate website](https://www.climate.gov/maps-data). I hand selected counties to request this data for. The data files I received and am using in this project are daily temperature observations from stations located within major agricultural producing counties of California. 
+#### Reading Data Files
+##### I began this project by downloading temperature data from the [NOAA climate website](https://www.climate.gov/maps-data). I hand selected counties to request this data for. The data files I received and am using in this project are daily temperature observations from stations located within major agricultural producing counties of California. 
 
-###I loaded in data from the CSV files and created one table with all of the temperature observation files.
+##### I loaded in data from the CSV files and created one table with all of the temperature observation files.
 ```{r read data}
 df_1 <- read_csv("CSV data files/1929501.csv", col_types = cols(TMAX = col_integer(), TMIN = col_integer()),col_names=TRUE)
 df_2 <- read_csv("CSV data files/1929502.csv", col_types = cols(TMAX = col_integer(), TMIN = col_integer()),col_names=TRUE)
@@ -44,33 +42,37 @@ all_data <- rbind(df_1, df_2, df_3, df_4, df_5)
 head(all_data)
 ```
 
-##Cleaning Dataset
-###I decided to omit all NA variables for temperature using the code below. 
+#### Cleaning Dataset
+##### I decided to omit all NA variables for temperature using the code below. 
 ```{r remove NAs}
 all_data <- all_data[complete.cases(all_data$TMAX), ]
 ```
 
-###I seperated the full date into three columns by year, month, day.
+##### I seperated the full date into three columns by year, month, day.
 ```{r parse dates}
 all_data <- separate(all_data,DATE, c("YEAR", "MONTH", "DAY"),"-")
 ```
 
-##Isolating name of town. 
-###I am doing this by first taking the names column and parcing into seperate columns, seperating by a space or a comma. I then drop all added columns becides CITY.
-```{r parse cities}
+
+
+#### Isolating Name of Town 
+##### I am doing this by first taking the names column and parcing into seperate columns, seperating by a space or a comma. I then drop all added columns becides CITY.
+```{r}
 all_data <- separate(all_data, NAME, c("CITY","STATE","COUNTRY", "x1", "x2", "x3", "x4"), 
     sep = "([\\ \\,])")
-all_data <- subset(all_data, select = -c(STATE, COUNTRY,x1,x2,x3,x4))
-all_data <- unite(all_data, CITY, select =c(CITY), sep = " ")
+all_data <- all_data %>%
+  select(-c(STATE, COUNTRY,x1,x2,x3,x4)) 
+# subset(all_data, select = -c(STATE, COUNTRY,x1,x2,x3,x4))
+# all_data <- unite(all_data, CITY, select =CITY, sep = " ")
 head(all_data)
 ```
 
-###Check to see what every city name is.
+##### Check to see what every city name is.
 ```{r check city names}
 unique(all_data$CITY) 
 ```
 
-###I have selected only the first word for each town name. I will now add the words that were omitted from town names manually so that town names are complete in the dataset.
+##### I have selected only the first word for each town name. I will now add the words that were omitted from town names manually so that town names are complete in the dataset.
 ```{r change city names}
 id <- c("SQUAW", "GOLD", "IMPERIAL", "RED", "EAST")
 names<- c("SQUAW LAKE", "GOLD ROCK RANCH", "IMPERIAL SAND DUNES", "RED BLUFF", "EAST PARK RESERVOIR")
@@ -82,7 +84,7 @@ for (i in c(1:length(id))) {
 }
 unique(all_data$CITY)
 ```
-###I also notice that there are some cities that have two observation stations reporting data. I remove these double counts so as not to bias my results.
+##### I also notice that there are some cities that have two observation stations reporting data. I remove these double counts so as not to bias my results.
 ```{r remove double counts}
 all_data <- all_data %>%
        distinct(CITY,YEAR,MONTH,DAY, .keep_all = TRUE)
@@ -90,8 +92,10 @@ nrow(all_data)
 ```
 
 
-##Exploring Temperature Data
-###I begin by isolating the occurances of extreme temperature above 105 degrees and count total occurances of extreme temperature by year and by city. I create a table that I can use to visually explore my data. Some cities do not have any occurances of extreme temperature and give back an NA value in the table.
+
+
+#### Exploring Temperature Data
+##### I begin by isolating the occurances of extreme temperature above 105 degrees and count total occurances of extreme temperature by year and by city. I create a table that I can use to visually explore my data. Some cities do not have any occurances of extreme temperature and give back an NA value in the table.
 ```{r occurances of temp above 105}
 #create dummy variable for when average temp is above 105
 # avg count above 105 btwn 1989-2010. 
@@ -107,8 +111,8 @@ all_data2
 ```
 
 
-###I now want to see cumulative counts of extreme weather by year. My first question is if occurances of extreme temperatures are increasing throughout California. I want to see if my data of selected cities have volatile counts or trends.
-```{r}
+##### I now want to see cumulative counts of extreme weather by year. My first question is if occurances of extreme temperatures are increasing throughout California. I want to see if my data of selected cities have volatile counts or trends.
+```{r cumulative counts by year}
 all_data3 <- all_data %>%
   mutate(above105 = TMAX >= 105,
          above105 = as.numeric(above105)) %>%
@@ -119,14 +123,15 @@ all_data3 <- all_data %>%
 all_data3
 ```
 
-```{r}
+```{r plot of yearly counts}
 ggplot(all_data3) +
   geom_line(mapping = aes(x=as.numeric(YEAR), y= count), color= "blue") +
   labs(title = "Occurances of Temperatures above 104(F)", x = "Year", y= "Count")
 ```
-###It seems that the yearly counts are increasing, but maybe this is not be completely accurate. Not all stations have the same number of days during the year that are being reported.
 
-###Possibly it is better to take an average by year and plot this, rather than yearly count. I decide to see how different this plots in comparison to the yearly count plot.
+##### It seems that the yearly counts are increasing, but maybe this is not be completely accurate. Not all stations have the same number of days during the year that are being reported.
+
+##### Possibly it is better to take an average by year and plot this, rather than yearly count. I decide to see how different this plots in comparison to the yearly count plot.
 ```{r average across all years}
 all_data4 <- all_data %>%
   mutate(above105 = TMAX >= 105,
@@ -139,72 +144,14 @@ all_data4 <- all_data %>%
 head(all_data4) 
 ```
 
-```{r}
+```{r plot of average yearly counts of extreme tempaverages}
 ggplot(all_data4) +
   geom_line(mapping = aes(x=as.numeric(YEAR), y= avg), color= "blue") +
-  labs(title = "Occurances of Temperatures above 104(F)", x = "Year", y= "Average Occurances")
+  labs(title = "Average Yearly Occurances of Temperatures Above 104(F)", x = "Year", y= "Average Occurances")
 ```
 
-###I also wanted to seperate the counts of days each city had with extreme temperature per year. This shows the days per year for each city. Some cities experienced more days of extreme temperature per year than others. Most are pretty consistant over time. I see that some stations do not provide data for the entire time series. If I were to repeat this analysis I would try to find station data that provides temperature measurements for the entire time series.  
-```{r}
-all_data %>%
-  mutate(above105 = TMAX >= 105,
-         above105 = as.numeric(above105)) %>%
-  filter(above105==1) %>%
-  group_by(CITY,YEAR) %>%
-  summarize(count = n()) %>%
-  ggplot() +
-  geom_line(aes(as.numeric(YEAR),count)) +
-  facet_wrap(~CITY) +
-  labs(title = "Number of Days Each City Had Temperatures That Were Above 104(F)", x= "Year", y= "Count") +
-  facet_wrap(~CITY)
-```
-
-
-##Visualizing Location of Reported Temperatures in California
-###I would now like to create a map of California that shows the location of each station reporting temperature data. I decided to take the average number of times there were extreme temperatures in each city, for all of the years being reported. I then use this to create a color gradient heat map that shows the cooler and hotter counties. I think that certain geographic locations of California have more instances of extreme temperature, on average, than other counties.  
-
-###Create a new table with the spread of count times that temperature was above 105 each year in each city.
-```{r average across all years}
-all_data5 <- all_data %>%
-  mutate(above105 = TMAX >= 105,
-         above105 = as.numeric(above105)) %>%
-  filter(above105==1) %>%
-  group_by(CITY,YEAR, LATITUDE,LONGITUDE) %>%
-  summarize(count = n()) %>%
-  group_by(CITY, LATITUDE, LONGITUDE) %>%
-  summarize(avg = mean(count)) 
-head(all_data5) 
-```
-```{r}
-ggplot(all_data5) +
-  geom_col(mapping= aes(x= CITY, y = avg))
-```
-###This histogram is very cluttered along the X axis with city names. Instead of a histogram I would like to see these cumulative averages per city plotted on a map of California, because I think these higher temperatures might be related to region.
-```{r}
-ca_map <- map_data("state")
-ca_map <- ca_map %>%
-  filter(region == "california")
-```
-
-###This is my map of the points of the station locations that were used. I used a heat map option to show the comparative averages of each station location. I can see that there are a few counties that have two stations reporting. I tried to resolve this error earlier but I am not sure how to fix this with another method. It is showing that the further south in California the cities are located, the higher the instances of extreme temperature. 
-```{r}
-ggplot() +
-  geom_polygon(data=ca_map, mapping=aes(x = long*.995, y = lat*.99 ), inherit.aes = FALSE, fill = "gold", color = "blue", alpha = .9) +
-  geom_point(data=all_data5, mapping=aes(x = LONGITUDE, y = LATITUDE, color=avg)) + labs(title = "Location Based Average Counts of Temperatuve Above 104(F)", x = "Longitude", y= "Latitude")
-```
-
-
-##Linear Regression and Causality
-###I decided to examine my data with a linear regression analysis. I want to see the effect that each variable has on temperature. Examing the regression I see that there is significant positive temperature change over time. However, my R-squared value is very low at 0.12, which tells me that I would like to have more data to strengthen my confidence in my results.
-```{r}
-regression_model <- lm(TMAX ~ ELEVATION + as.numeric(YEAR) + factor(CITY), data = all_data)
-summary(regression_model)
-```
-
-##Other Plotting of Temperature Data
-###I have taken the yearly average number of days of extreme temperature in all the cities per year with 95% confidence intervals. Signifcance is indicated by shifts beyond 95% confidence range for each year.
-```{r}
+##### I have taken the yearly average number of days of extreme temperature in all the cities per year with 95% confidence intervals. Signifcance is indicated by shifts beyond 95% confidence range for each year.
+```{r other plots of data}
 all_data %>%
   mutate(above105 = TMAX >= 105,
          above105 = as.numeric(above105)) %>%
@@ -220,10 +167,77 @@ all_data %>%
   ggplot() +
   geom_point(aes(x = as.character(YEAR), y = avg)) +
   geom_linerange(aes(x = as.character(YEAR), ymax = upper, ymin = lower)) +
-  labs(title = "Yearly Average of Days Temperatures Above 105(F) Across Cities", x= "Year", y= "Average Number of Days Above 105(F)")
+  labs(title = "Yearly Average of Days Temperatures Above 104(F) Across Cities", x= "Year", y= "Average Number of Days")
 ```
 
 
+
+##### Create a new table with the spread of count times that temperature was above 105 each year in each city.
+```{r new table with average across all years}
+all_data5 <- all_data %>%
+  mutate(above105 = TMAX >= 105,
+         above105 = as.numeric(above105)) %>%
+  filter(above105==1) %>%
+  group_by(CITY,YEAR, LATITUDE,LONGITUDE) %>%
+  summarize(count = n()) %>%
+  group_by(CITY, LATITUDE, LONGITUDE) %>%
+  summarize(avg = mean(count)) 
+head(all_data5) 
+```
+
+```{r bar chart of averages}
+ggplot(all_data5) +
+  geom_col(mapping= aes(x= CITY, y = avg)) +
+  labs(title="Average Number of Days With Extreme Temperatures Per City", x= "City", y="Average Number of Days")
+```
+
+##### This histogram is very cluttered along the X axis with city names. Instead of a bar chart I would like to see these yearly counts of extreme temperature for each city.
+
+##### I seperate the counts of days each city had extreme temperature per year, showing the total days per year for each city. Some cities experienced more days of extreme temperature per year than others. Most are pretty consistant over time. I see that some stations do not provide data for the entire time series. If I were to repeat this analysis I would try to find station data that provides temperature measurements for the entire time series.  
+```{r yearly counts by city}
+all_data %>%
+  mutate(above105 = TMAX >= 105,
+         above105 = as.numeric(above105)) %>%
+  filter(above105==1) %>%
+  group_by(CITY,YEAR) %>%
+  summarize(count = n()) %>%
+  ggplot() +
+  geom_line(aes(as.numeric(YEAR),count)) +
+  facet_wrap(~CITY) +
+  labs(title = "Number of Days Each City Had Temperatures That Were Above 104(F)", x= "Year", y= "Count") +
+  facet_wrap(~CITY)
+```
+
+
+
+
+
+#### Visualizing Location of Stations Reporting Temperatures in California
+##### I would now like to create a map of California that shows the location of each station reporting temperature data. I decided to take the average number of times there were extreme temperatures in each city, for all of the years being reported. I then use this to create a color gradient heat map that shows the cooler and hotter counties. I think that certain geographic locations of California have more instances of extreme temperature, on average, than other counties.  
+
+
+```{r ca map}
+ca_map <- map_data("state")
+ca_map <- ca_map %>%
+  filter(region == "california")
+```
+
+##### This is my map of the points of the station locations that were used. I used a heat map option to show the comparative averages of each station location. I can see that there are a few counties that have two stations reporting. I tried to resolve this error earlier but I am not sure how to fix this with another method. It is showing that the further south in California the cities are located, the higher the instances of extreme temperature. 
+```{r ca map with station locations}
+ggplot() +
+  geom_polygon(data=ca_map, mapping=aes(x = long*.995, y = lat*.99 ), inherit.aes = FALSE, fill = "gold", color = "blue", alpha = .9) +
+  geom_point(data=all_data5, mapping=aes(x = LONGITUDE, y = LATITUDE, color=avg)) + labs(title = "Location Based Average Counts of Temperatuve Above 104(F)", x = "Longitude", y= "Latitude")
+```
+
+
+
+
+#### Linear Regression and Causality
+##### I decided to examine my data with a linear regression analysis. I want to see the effect that each variable has on temperature. Examing the regression I see that there is significant positive temperature change over time. However, my R-squared value is very low at 0.12, which tells me that I would like to have more data to strengthen my confidence in my results.
+```{r linear regression}
+regression_model <- lm(TMAX ~ ELEVATION + as.numeric(YEAR) + factor(CITY), data = all_data)
+summary(regression_model)
+```
 
 
 
