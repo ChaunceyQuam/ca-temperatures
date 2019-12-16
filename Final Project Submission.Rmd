@@ -1,7 +1,7 @@
 ---
 title: "Final Project- Examing Occurances of Extreme Temperatures in California Between 1989-2018"
 author: "Chauncey Quam"
-date: "11/10/2019"
+date: "11/15/2019"
 output:
   html_document: default
 ---
