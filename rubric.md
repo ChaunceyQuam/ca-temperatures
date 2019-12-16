@@ -1,7 +1,6 @@
 # Final project proposal
 
 
-
 - Title & description of the project
 - Your name & partner's name
 - A description of the data required, and how it will be obtained (e.g. URL/DOI to data source)
