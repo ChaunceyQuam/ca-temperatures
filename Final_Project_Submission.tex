@@ -24,7 +24,7 @@
 \usepackage[margin=1in]{geometry}
 \usepackage{hyperref}
 \hypersetup{unicode=true,
-            pdftitle={Final Project- Exploring Temperatures in California Between 1989-2018},
+            pdftitle={Final Project- Examing Occurances of Extreme Temperatures in California Between 1989-2018},
             pdfauthor={Chauncey Quam},
             pdfborder={0 0 0},
             breaklinks=true}
@@ -114,7 +114,8 @@
 
 \setlength{\droptitle}{-2em}
 
-  \title{Final Project- Exploring Temperatures in California Between 1989-2018}
+  \title{Final Project- Examing Occurances of Extreme Temperatures in California
+Between 1989-2018}
     \pretitle{\vspace{\droptitle}\centering\huge}
   \posttitle{\par}
     \author{Chauncey Quam}
@@ -122,26 +123,41 @@
   \postauthor{\par}
       \predate{\centering\large\emph}
   \postdate{\par}
-    \date{11/10/2019}
+    \date{11/15/2019}
 
 
 \begin{document}
 \maketitle
 
-setwd
+\hypertarget{in-this-project-i-will-be-examining-daily-temperature-observations-for-selected-counties-in-california-during-the-past-30-years-from-1989-2018.-these-counties-were-selected-because-they-are-all-major-agricultural-producing-counties-in-california.-extreme-temperature-can-have-a-drastic-effect-on-crop-yield.-as-climate-in-california-changes-our-current-agricultural-production-regions-of-california-might-become-less-productive-with-longer-instances-of-days-with-extreme-temperatures.-this-project-attempts-to-explore-instances-of-extreme-temperatures-classified-in-this-study-as-temperatures-of-105-degrees-or-higher-to-see-if-temperatures-are-rising-in-california.-this-project-will-not-explore-the-relationship-of-extreme-temperatures-and-decrease-in-crop-yeild-but-simply-tries-to-show-that-occurences-of-extreme-temperatures-have-been-increasing-in-our-state-over-the-past-30-years.}{%
+\paragraph{\texorpdfstring{\emph{In this project I will be examining
+daily temperature observations for selected counties in California
+during the past 30 years, from 1989-2018. These counties were selected
+because they are all major agricultural producing counties in
+California. Extreme temperature can have a drastic effect on crop yield.
+As climate in California changes our current agricultural production
+regions of California might become less productive with longer instances
+of days with extreme temperatures. This project attempts to explore
+instances of extreme temperatures, classified in this study as
+temperatures of 105 degrees or higher, to see if temperatures are rising
+in California. This project will not explore the relationship of extreme
+temperatures and decrease in crop yeild but simply tries to show that
+occurences of extreme temperatures have been increasing in our state
+over the past 30
+years.}}{In this project I will be examining daily temperature observations for selected counties in California during the past 30 years, from 1989-2018. These counties were selected because they are all major agricultural producing counties in California. Extreme temperature can have a drastic effect on crop yield. As climate in California changes our current agricultural production regions of California might become less productive with longer instances of days with extreme temperatures. This project attempts to explore instances of extreme temperatures, classified in this study as temperatures of 105 degrees or higher, to see if temperatures are rising in California. This project will not explore the relationship of extreme temperatures and decrease in crop yeild but simply tries to show that occurences of extreme temperatures have been increasing in our state over the past 30 years.}}\label{in-this-project-i-will-be-examining-daily-temperature-observations-for-selected-counties-in-california-during-the-past-30-years-from-1989-2018.-these-counties-were-selected-because-they-are-all-major-agricultural-producing-counties-in-california.-extreme-temperature-can-have-a-drastic-effect-on-crop-yield.-as-climate-in-california-changes-our-current-agricultural-production-regions-of-california-might-become-less-productive-with-longer-instances-of-days-with-extreme-temperatures.-this-project-attempts-to-explore-instances-of-extreme-temperatures-classified-in-this-study-as-temperatures-of-105-degrees-or-higher-to-see-if-temperatures-are-rising-in-california.-this-project-will-not-explore-the-relationship-of-extreme-temperatures-and-decrease-in-crop-yeild-but-simply-tries-to-show-that-occurences-of-extreme-temperatures-have-been-increasing-in-our-state-over-the-past-30-years.}}
 
-\#\#Load Packages needed for data analysis.
+\hypertarget{load-packages-for-data-analysis}{%
+\paragraph{\texorpdfstring{\textbf{Load Packages For Data
+Analysis}}{Load Packages For Data Analysis}}\label{load-packages-for-data-analysis}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{# install.packages("tidyverse")}
-\CommentTok{# install.packages("tidyr")}
-\CommentTok{# install.packages("readxl")}
-\CommentTok{# install.packages("dplyr")}
-\CommentTok{# install.packages("lubridate")}
-\CommentTok{# install.packages("ggplot2")}
-\CommentTok{# install.packages("maps")}
-\CommentTok{# install.packages('tinytex')}
+\CommentTok{#install.packages("tidyverse")}
+\CommentTok{#install.packages("tidyr")}
+\CommentTok{#install.packages("dplyr")}
+\CommentTok{#install.packages("lubridate")}
+\CommentTok{#install.packages("ggplot2")}
+\CommentTok{#install.packages("maps")}
 \KeywordTok{library}\NormalTok{(}\StringTok{"tidyverse"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -151,7 +167,7 @@ setwd
 \end{verbatim}
 
 \begin{verbatim}
-## ── Attaching packages ───────────────────────────────────────────────────────────────── tidyverse 1.3.0 ──
+## ── Attaching packages ──────────────────────────────────────────────────────────────────────────── tidyverse 1.3.0 ──
 \end{verbatim}
 
 \begin{verbatim}
@@ -190,19 +206,9 @@ setwd
 \end{verbatim}
 
 \begin{verbatim}
-## ── Conflicts ──────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+## ── Conflicts ─────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{library}\NormalTok{(}\StringTok{"readxl"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## Warning: package 'readxl' was built under R version 3.5.2
 \end{verbatim}
 
 \begin{Shaded}
@@ -241,41 +247,23 @@ setwd
 ##     map
 \end{verbatim}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{library}\NormalTok{(}\StringTok{'tinytex'}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
+\hypertarget{reading-data-files}{%
+\paragraph{\texorpdfstring{\textbf{Reading Data
+Files}}{Reading Data Files}}\label{reading-data-files}}
 
-\begin{verbatim}
-## Warning: package 'tinytex' was built under R version 3.5.2
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{#tinytex::install_tinytex()}
-\end{Highlighting}
-\end{Shaded}
-
-\#In this project I will be examining daily temperature observations for
-selected counties in California during the past 30 years. These counties
-were selected because they are all major agricultural producing counties
-in California. Extreme temperature can have a drastic effect on crop
-yield. As climate in California changes our current agricultural
-production regions of California might become less productive as
-temperature increases. This project attempts to explore instances of
-extreme temperatures, classified as temperatures of 105 degrees or
-higher.
-
-\#\#Reading Data Files \#\#\#I began this project by downloading
+\hypertarget{i-began-this-project-by-downloading-temperature-data-from-the-noaa-climate-website.-i-hand-selected-counties-to-request-this-data-for.-the-data-files-i-received-and-am-using-in-this-project-are-daily-temperature-observations-from-stations-located-within-major-agricultural-producing-counties-of-california.}{%
+\subparagraph{\texorpdfstring{I began this project by downloading
 temperature data from the \href{https://www.climate.gov/maps-data}{NOAA
 climate website}. I hand selected counties to request this data for. The
 data files I received and am using in this project are daily temperature
 observations from stations located within major agricultural producing
-counties of California.
+counties of
+California.}{I began this project by downloading temperature data from the NOAA climate website. I hand selected counties to request this data for. The data files I received and am using in this project are daily temperature observations from stations located within major agricultural producing counties of California.}}\label{i-began-this-project-by-downloading-temperature-data-from-the-noaa-climate-website.-i-hand-selected-counties-to-request-this-data-for.-the-data-files-i-received-and-am-using-in-this-project-are-daily-temperature-observations-from-stations-located-within-major-agricultural-producing-counties-of-california.}}
 
-\#\#\#I loaded in data from the CSV files and created one table with all
-of the temperature observation files.
+\hypertarget{i-loaded-in-data-from-the-csv-files-and-created-one-table-with-all-of-the-temperature-observation-files.}{%
+\subparagraph{I loaded in data from the CSV files and created one table
+with all of the temperature observation
+files.}\label{i-loaded-in-data-from-the-csv-files-and-created-one-table-with-all-of-the-temperature-observation-files.}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -302,8 +290,14 @@ of the temperature observation files.
 ## 6 US1CASR0… BARSTOW 0.…     34.9     -117.      795. 2010-02-28    NA    NA
 \end{verbatim}
 
-\#\#Cleaning Dataset \#\#\#I decided to omit all NA variables for
-temperature using the code below.
+\hypertarget{cleaning-dataset}{%
+\paragraph{\texorpdfstring{\textbf{Cleaning
+Dataset}}{Cleaning Dataset}}\label{cleaning-dataset}}
+
+\hypertarget{i-decided-to-omit-all-na-variables-for-temperature-values-using-the-code-below.}{%
+\subparagraph{I decided to omit all NA variables for temperature values
+using the code
+below.}\label{i-decided-to-omit-all-na-variables-for-temperature-values-using-the-code-below.}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -311,7 +305,10 @@ temperature using the code below.
 \end{Highlighting}
 \end{Shaded}
 
-\#\#\#I seperated the full date into three columns by year, month, day.
+\hypertarget{i-seperated-the-full-date-into-three-columns-by-year-month-day.}{%
+\subparagraph{I seperated the full date into three columns by year,
+month,
+day.}\label{i-seperated-the-full-date-into-three-columns-by-year-month-day.}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -319,9 +316,15 @@ temperature using the code below.
 \end{Highlighting}
 \end{Shaded}
 
-\#\#Isolating name of town. \#\#\#I am doing this by first taking the
-names column and parcing into seperate columns, seperating by a space or
-a comma. I then drop all added columns becides CITY.
+\hypertarget{isolating-name-of-town}{%
+\paragraph{\texorpdfstring{\textbf{Isolating Name of
+Town}}{Isolating Name of Town}}\label{isolating-name-of-town}}
+
+\hypertarget{i-am-doing-this-by-first-taking-the-names-column-and-parcing-into-seperate-columns-seperating-by-a-space-or-a-comma.-i-then-drop-all-added-columns-becides-city.}{%
+\subparagraph{I am doing this by first taking the names column and
+parcing into seperate columns, seperating by a space or a comma. I then
+drop all added columns becides
+CITY.}\label{i-am-doing-this-by-first-taking-the-names-column-and-parcing-into-seperate-columns-seperating-by-a-space-or-a-comma.-i-then-drop-all-added-columns-becides-city.}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -339,9 +342,7 @@ a comma. I then drop all added columns becides CITY.
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{all_data <-}\StringTok{ }\NormalTok{all_data }\OperatorTok{%>%}
-\StringTok{  }\KeywordTok{select}\NormalTok{(}\OperatorTok{-}\KeywordTok{c}\NormalTok{(STATE, COUNTRY,x1,x2,x3,x4)) }
-\CommentTok{# subset(all_data, select = -c(STATE, COUNTRY,x1,x2,x3,x4))}
-\CommentTok{# all_data <- unite(all_data, CITY, select =CITY, sep = " ")}
+\StringTok{  }\KeywordTok{select}\NormalTok{(}\OperatorTok{-}\KeywordTok{c}\NormalTok{(STATE, COUNTRY,x1,x2,x3,x4))}
 \KeywordTok{head}\NormalTok{(all_data)}
 \end{Highlighting}
 \end{Shaded}
@@ -358,7 +359,9 @@ a comma. I then drop all added columns becides CITY.
 ## 6 USC0004… BLYT…     33.6     -115.      81.7 1989  01    06       55    40
 \end{verbatim}
 
-\#\#\#Check to see what every city name is.
+\hypertarget{check-to-see-what-every-city-name-is.}{%
+\subparagraph{Check to see what every city name
+is.}\label{check-to-see-what-every-city-name-is.}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -374,9 +377,11 @@ a comma. I then drop all added columns becides CITY.
 ## [21] "EAST"       "HANFORD"    "DELANO"     "COALINGA"   "MERCED"
 \end{verbatim}
 
-\#\#\#I have selected only the first word for each town name. I will now
-add the words that were omitted from town names manually so that town
-names are complete in the dataset.
+\hypertarget{i-have-selected-only-the-first-word-for-each-town-name.-i-will-now-add-the-words-that-were-omitted-from-town-names-manually-so-that-town-names-are-complete-in-the-dataset.}{%
+\subparagraph{I have selected only the first word for each town name. I
+will now add the words that were omitted from town names manually so
+that town names are complete in the
+dataset.}\label{i-have-selected-only-the-first-word-for-each-town-name.-i-will-now-add-the-words-that-were-omitted-from-town-names-manually-so-that-town-names-are-complete-in-the-dataset.}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -404,9 +409,11 @@ names are complete in the dataset.
 ## [25] "MERCED"
 \end{verbatim}
 
-\#\#\#I also notice that there are some cities that have two observation
-stations reporting data. I remove these double counts so as not to bias
-my results.
+\hypertarget{i-also-notice-that-there-are-some-cities-that-have-two-observation-stations-reporting-data.-i-want-to-remove-these-double-counts-to-avoid-a-bias-in-my-results.}{%
+\subparagraph{I also notice that there are some cities that have two
+observation stations reporting data. I want to remove these double
+counts to avoid a bias in my
+results.}\label{i-also-notice-that-there-are-some-cities-that-have-two-observation-stations-reporting-data.-i-want-to-remove-these-double-counts-to-avoid-a-bias-in-my-results.}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -420,11 +427,17 @@ my results.
 ## [1] 198764
 \end{verbatim}
 
-\#\#Exploring Temperature Data \#\#\#I begin by isolating the occurances
-of extreme temperature above 105 degrees and count total occurances of
-extreme temperature by year and by city. I create a table that I can use
-to visually explore my data. Some cities do not have any occurances of
-extreme temperature and give back an NA value in the table.
+\hypertarget{exploring-temperature-data}{%
+\paragraph{\texorpdfstring{\textbf{Exploring Temperature
+Data}}{Exploring Temperature Data}}\label{exploring-temperature-data}}
+
+\hypertarget{i-begin-by-isolating-the-occurences-of-extreme-temperature-above-105-degrees-and-count-total-occurences-of-extreme-temperature-by-year-and-by-city.-i-create-a-table-that-i-can-use-to-visually-explore-my-data.-some-cities-do-not-have-any-occurences-of-extreme-temperature-and-give-back-an-na-value-in-the-table.}{%
+\subparagraph{I begin by isolating the occurences of extreme temperature
+above 105 degrees and count total occurences of extreme temperature by
+year and by city. I create a table that I can use to visually explore my
+data. Some cities do not have any occurences of extreme temperature and
+give back an NA value in the
+table.}\label{i-begin-by-isolating-the-occurences-of-extreme-temperature-above-105-degrees-and-count-total-occurences-of-extreme-temperature-by-year-and-by-city.-i-create-a-table-that-i-can-use-to-visually-explore-my-data.-some-cities-do-not-have-any-occurences-of-extreme-temperature-and-give-back-an-na-value-in-the-table.}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -464,10 +477,17 @@ extreme temperature and give back an NA value in the table.
 ## #   `2015` <int>, `2016` <int>, `2017` <int>, `2018` <int>
 \end{verbatim}
 
-\#\#\#I now want to see cumulative counts of extreme weather by year. My
-first question is if occurances of extreme temperatures are increasing
-throughout California. I want to see if my data of selected cities have
-volatile counts or trends.
+\hypertarget{i-see-that-some-cities-have-high-occurences-of-extreme-temperatures-while-others-have-none.}{%
+\subparagraph{I see that some cities have high occurences of extreme
+temperatures while others have
+none.}\label{i-see-that-some-cities-have-high-occurences-of-extreme-temperatures-while-others-have-none.}}
+
+\hypertarget{i-now-want-to-see-cumulative-counts-of-extreme-temperature-by-year.-my-first-question-is-if-occurences-of-extreme-temperatures-are-increasing-throughout-california.-i-want-to-see-if-my-yearly-data-from-all-of-the-selected-cities-have-volatile-counts-or-trends.}{%
+\subparagraph{I now want to see cumulative counts of extreme temperature
+by year. My first question is if occurences of extreme temperatures are
+increasing throughout California. I want to see if my yearly data from
+all of the selected cities have volatile counts or
+trends.}\label{i-now-want-to-see-cumulative-counts-of-extreme-temperature-by-year.-my-first-question-is-if-occurences-of-extreme-temperatures-are-increasing-throughout-california.-i-want-to-see-if-my-yearly-data-from-all-of-the-selected-cities-have-volatile-counts-or-trends.}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -503,18 +523,24 @@ volatile counts or trends.
 \begin{Highlighting}[]
 \KeywordTok{ggplot}\NormalTok{(all_data3) }\OperatorTok{+}
 \StringTok{  }\KeywordTok{geom_line}\NormalTok{(}\DataTypeTok{mapping =} \KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\KeywordTok{as.numeric}\NormalTok{(YEAR), }\DataTypeTok{y=}\NormalTok{ count), }\DataTypeTok{color=} \StringTok{"blue"}\NormalTok{) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{title =} \StringTok{"Occurances of Temperatures above 104(F)"}\NormalTok{, }\DataTypeTok{x =} \StringTok{"Year"}\NormalTok{, }\DataTypeTok{y=} \StringTok{"Count"}\NormalTok{)}
+\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{title =} \StringTok{"Occurences of Temperatures above 105(F)"}\NormalTok{, }\DataTypeTok{x =} \StringTok{"Year"}\NormalTok{, }\DataTypeTok{y=} \StringTok{"Count"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \includegraphics{Final_Project_Submission_files/figure-latex/plot of yearly counts-1.pdf}
-\#\#\#It seems that the yearly counts are increasing, but maybe this is
-not be completely accurate. Not all stations have the same number of
-days during the year that are being reported.
 
-\#\#\#Possibly it is better to take an average by year and plot this,
-rather than yearly count. I decide to see how different this plots in
-comparison to the yearly count plot.
+\hypertarget{it-seems-that-there-are-increasing-yearly-counts-of-days-with-extreme-temperatures-but-possibly-this-is-not-completely-accurate.-not-all-stations-have-the-same-number-of-days-during-the-year-that-are-being-reported.}{%
+\subparagraph{It seems that there are increasing yearly counts of days
+with extreme temperatures, but possibly this is not completely accurate.
+Not all stations have the same number of days during the year that are
+being
+reported.}\label{it-seems-that-there-are-increasing-yearly-counts-of-days-with-extreme-temperatures-but-possibly-this-is-not-completely-accurate.-not-all-stations-have-the-same-number-of-days-during-the-year-that-are-being-reported.}}
+
+\hypertarget{possibly-it-is-better-to-take-an-average-by-year-and-plot-this-rather-than-yearly-count.-i-decide-to-see-how-different-this-plots-in-comparison-to-the-yearly-count-plot.}{%
+\subparagraph{Possibly it is better to take an average by year and plot
+this, rather than yearly count. I decide to see how different this plots
+in comparison to the yearly count
+plot.}\label{possibly-it-is-better-to-take-an-average-by-year-and-plot-this-rather-than-yearly-count.-i-decide-to-see-how-different-this-plots-in-comparison-to-the-yearly-count-plot.}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -546,19 +572,24 @@ comparison to the yearly count plot.
 \begin{Highlighting}[]
 \KeywordTok{ggplot}\NormalTok{(all_data4) }\OperatorTok{+}
 \StringTok{  }\KeywordTok{geom_line}\NormalTok{(}\DataTypeTok{mapping =} \KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\KeywordTok{as.numeric}\NormalTok{(YEAR), }\DataTypeTok{y=}\NormalTok{ avg), }\DataTypeTok{color=} \StringTok{"blue"}\NormalTok{) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{title =} \StringTok{"Occurances of Temperatures above 104(F) Per Year"}\NormalTok{, }\DataTypeTok{x =} \StringTok{"Year"}\NormalTok{, }\DataTypeTok{y=} \StringTok{"Average Occurances"}\NormalTok{)}
+\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{title =} \StringTok{"Average Yearly Occurences of Temperatures Above 105(F)"}\NormalTok{, }\DataTypeTok{x =} \StringTok{"Year"}\NormalTok{, }\DataTypeTok{y=} \StringTok{"Average Occurences"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \includegraphics{Final_Project_Submission_files/figure-latex/plot of average yearly counts of extreme tempaverages-1.pdf}
 
-\#\#\#I also wanted to seperate the counts of days each city had with
-extreme temperature per year. This shows the days per year for each
-city. Some cities experienced more days of extreme temperature per year
-than others.Most are pretty consistant over time. I see that some
-stations do not provide data for the entire time series. If I were to
-repeat this analysis I would try to find station data that provides
-temperature measurements for the entire time series.
+\hypertarget{this-plot-is-slightly-different-than-the-first-plot.-i-feel-more-comfortable-with-the-graph-that-shows-the-average-aggregate-count-of-days-with-extreme-temperatures.-however-they-are-both-showing-the-same-trend-of-increasing-aggregate-counts-of-days-with-extreme-temperatures.}{%
+\subparagraph{This plot is slightly different than the first plot. I
+feel more comfortable with the graph that shows the average aggregate
+count of days with extreme temperatures. However they are both showing
+the same trend of increasing aggregate counts of days with extreme
+temperatures.}\label{this-plot-is-slightly-different-than-the-first-plot.-i-feel-more-comfortable-with-the-graph-that-shows-the-average-aggregate-count-of-days-with-extreme-temperatures.-however-they-are-both-showing-the-same-trend-of-increasing-aggregate-counts-of-days-with-extreme-temperatures.}}
+
+\hypertarget{i-have-taken-the-yearly-average-number-of-days-of-extreme-temperature-in-all-the-cities-per-year-with-95-confidence-intervals.-signifcance-is-indicated-by-shifts-beyond-95-confidence-range-for-each-year.}{%
+\subparagraph{I have taken the yearly average number of days of extreme
+temperature in all the cities per year with 95\% confidence intervals.
+Signifcance is indicated by shifts beyond 95\% confidence range for each
+year.}\label{i-have-taken-the-yearly-average-number-of-days-of-extreme-temperature-in-all-the-cities-per-year-with-95-confidence-intervals.-signifcance-is-indicated-by-shifts-beyond-95-confidence-range-for-each-year.}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -567,28 +598,34 @@ temperature measurements for the entire time series.
          \DataTypeTok{above105 =} \KeywordTok{as.numeric}\NormalTok{(above105)) }\OperatorTok{%>%}
 \StringTok{  }\KeywordTok{filter}\NormalTok{(above105}\OperatorTok{==}\DecValTok{1}\NormalTok{) }\OperatorTok{%>%}
 \StringTok{  }\KeywordTok{group_by}\NormalTok{(CITY,YEAR) }\OperatorTok{%>%}
-\StringTok{  }\KeywordTok{summarize}\NormalTok{(}\DataTypeTok{count =} \KeywordTok{n}\NormalTok{()) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{summarize}\NormalTok{(}\DataTypeTok{freq =} \KeywordTok{n}\NormalTok{()) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{group_by}\NormalTok{(YEAR) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{summarize}\NormalTok{(}\DataTypeTok{avg =} \KeywordTok{mean}\NormalTok{(freq),}
+            \DataTypeTok{stdev =} \KeywordTok{sd}\NormalTok{(freq),}
+            \DataTypeTok{upper =}\NormalTok{ avg }\OperatorTok{+}\StringTok{ }\NormalTok{(stdev}\OperatorTok{*}\FloatTok{1.96}\OperatorTok{/}\KeywordTok{sqrt}\NormalTok{(}\KeywordTok{n}\NormalTok{())),}
+            \DataTypeTok{lower =}\NormalTok{ avg }\OperatorTok{-}\StringTok{ }\NormalTok{(stdev}\OperatorTok{*}\FloatTok{1.96}\OperatorTok{/}\KeywordTok{sqrt}\NormalTok{(}\KeywordTok{n}\NormalTok{()))}
+\NormalTok{            ) }\OperatorTok{%>%}
 \StringTok{  }\KeywordTok{ggplot}\NormalTok{() }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_line}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\KeywordTok{as.numeric}\NormalTok{(YEAR),count)) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{facet_wrap}\NormalTok{(}\OperatorTok{~}\NormalTok{CITY) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{title =} \StringTok{"Number of Days Each City Had Temperatures That Were Above 104(F)"}\NormalTok{, }\DataTypeTok{x=} \StringTok{"Year"}\NormalTok{, }\DataTypeTok{y=} \StringTok{"Count"}\NormalTok{) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{facet_wrap}\NormalTok{(}\OperatorTok{~}\NormalTok{CITY)}
+\StringTok{  }\KeywordTok{geom_point}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \KeywordTok{as.character}\NormalTok{(YEAR), }\DataTypeTok{y =}\NormalTok{ avg)) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_linerange}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \KeywordTok{as.character}\NormalTok{(YEAR), }\DataTypeTok{ymax =}\NormalTok{ upper, }\DataTypeTok{ymin =}\NormalTok{ lower)) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{title =} \StringTok{"Yearly Average of Days with Temperatures Above 105(F)"}\NormalTok{, }\DataTypeTok{x=} \StringTok{"Year"}\NormalTok{, }\DataTypeTok{y=} \StringTok{"Average Number of Days"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Final_Project_Submission_files/figure-latex/yearly counts by city-1.pdf}
+\includegraphics{Final_Project_Submission_files/figure-latex/other plots of data-1.pdf}
 
-\#\#Visualizing Location of Reported Temperatures in California \#\#\#I
-would now like to create a map of California that shows the location of
-each station reporting temperature data. I decided to take the average
-number of times there were extreme temperatures in each city, for all of
-the years being reported. I then use this to create a color gradient
-heat map that shows the cooler and hotter counties. I think that certain
-geographic locations of California have more instances of extreme
-temperature, on average, than other counties.
+\hypertarget{this-shows-that-there-are-sligtly-large-error-bars-but-in-general-the-average-aggregate-count-of-days-with-extreme-temperatures-per-year-is-slightly-increasing.}{%
+\subparagraph{This shows that there are sligtly large error bars, but in
+general the average aggregate count of days with extreme temperatures
+per year is slightly
+increasing.}\label{this-shows-that-there-are-sligtly-large-error-bars-but-in-general-the-average-aggregate-count-of-days-with-extreme-temperatures-per-year-is-slightly-increasing.}}
 
-\#\#\#Create a new table with the spread of count times that temperature
-was above 105 each year in each city.
+\hypertarget{i-want-to-examine-my-data-more-closely-to-understand-average-counts-of-days-with-extreme-temperature-by-city.-i-created-a-new-table-with-the-spread-of-counted-times-that-temperature-was-above-105-per-year-in-each-city.}{%
+\subparagraph{I want to examine my data more closely to understand
+average counts of days with extreme temperature by city. I created a new
+table with the spread of counted times that temperature was above 105
+per year in each
+city.}\label{i-want-to-examine-my-data-more-closely-to-understand-average-counts-of-days-with-extreme-temperature-by-city.-i-created-a-new-table-with-the-spread-of-counted-times-that-temperature-was-above-105-per-year-in-each-city.}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -621,16 +658,70 @@ was above 105 each year in each city.
 \begin{Highlighting}[]
 \KeywordTok{ggplot}\NormalTok{(all_data5) }\OperatorTok{+}
 \StringTok{  }\KeywordTok{geom_col}\NormalTok{(}\DataTypeTok{mapping=} \KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{ CITY, }\DataTypeTok{y =}\NormalTok{ avg)) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{title=}\StringTok{"Average Number of Days With Extreme Temperatures Per City"}\NormalTok{, }\DataTypeTok{x=} \StringTok{"City"}\NormalTok{, }\DataTypeTok{y=}\StringTok{"Average Number of Days"}\NormalTok{)}
+\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{title=}\StringTok{"Average Number of Days with Temperatures Above 105(F)"}\NormalTok{, }\DataTypeTok{x=} \StringTok{"City"}\NormalTok{, }\DataTypeTok{y=}\StringTok{"Average Number of Days"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \includegraphics{Final_Project_Submission_files/figure-latex/bar chart of averages-1.pdf}
 
-\#\#\#This histogram is very cluttered along the X axis with city names.
-Instead of a histogram I would like to see these cumulative averages per
-city plotted on a map of California, because I think these higher
-temperatures might be related to region.
+\hypertarget{this-histogram-is-very-cluttered-along-the-x-axis-with-city-names.-instead-of-a-bar-chart-i-would-like-to-see-these-yearly-counts-of-extreme-temperature-for-each-city.-it-does-show-that-some-cities-have-much-larger-average-counts-than-other-cities.-i-want-to-more-closely-examine-the-yearly-count-of-extreme-temperatures-in-each-city.}{%
+\subparagraph{This histogram is very cluttered along the x axis with
+city names. Instead of a bar chart I would like to see these yearly
+counts of extreme temperature for each city. It does show that some
+cities have much larger average counts than other cities. I want to more
+closely examine the yearly count of extreme temperatures in each
+city.}\label{this-histogram-is-very-cluttered-along-the-x-axis-with-city-names.-instead-of-a-bar-chart-i-would-like-to-see-these-yearly-counts-of-extreme-temperature-for-each-city.-it-does-show-that-some-cities-have-much-larger-average-counts-than-other-cities.-i-want-to-more-closely-examine-the-yearly-count-of-extreme-temperatures-in-each-city.}}
+
+\hypertarget{i-seperate-the-counts-of-days-per-year-each-city-had-extreme-temperatures-showing-the-total-days-per-year-for-each-city.}{%
+\subparagraph{I seperate the counts of days per year each city had
+extreme temperatures, showing the total days per year for each
+city.}\label{i-seperate-the-counts-of-days-per-year-each-city-had-extreme-temperatures-showing-the-total-days-per-year-for-each-city.}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{all_data }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{above105 =}\NormalTok{ TMAX }\OperatorTok{>=}\StringTok{ }\DecValTok{105}\NormalTok{,}
+         \DataTypeTok{above105 =} \KeywordTok{as.numeric}\NormalTok{(above105)) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(above105}\OperatorTok{==}\DecValTok{1}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{group_by}\NormalTok{(CITY,YEAR) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{summarize}\NormalTok{(}\DataTypeTok{count =} \KeywordTok{n}\NormalTok{()) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{ggplot}\NormalTok{() }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_line}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\KeywordTok{as.numeric}\NormalTok{(YEAR),count)) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{facet_wrap}\NormalTok{(}\OperatorTok{~}\NormalTok{CITY) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{title =} \StringTok{"Number of Days Each City Had Temperatures Above 105(F)"}\NormalTok{, }\DataTypeTok{x=} \StringTok{"Year"}\NormalTok{, }\DataTypeTok{y=} \StringTok{"Count"}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{facet_wrap}\NormalTok{(}\OperatorTok{~}\NormalTok{CITY)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Final_Project_Submission_files/figure-latex/yearly counts by city-1.pdf}
+
+\hypertarget{some-cities-experienced-more-days-of-extreme-temperature-per-year-than-others-with-fluxuation-by-year-while-other-cities-do-not-have-much-fluxuation.-there-are-noticably-hotter-regions-in-california-than-others.-i-also-see-that-some-stations-do-not-provide-data-for-the-entire-time-series.-if-i-were-to-repeat-this-analysis-i-would-try-to-find-station-data-that-provides-temperature-measurements-for-the-entire-time-series-for-the-locations-i-am-investigating.-there-are-some-cities-that-have-a-significant-dip-in-days-of-extreme-temperatures-and-i-am-curious-about-this.-i-have-a-feeling-that-those-dips-in-the-data-are-due-to-missing-data-however-i-am-not-sure-on-this-and-wont-be-investigating-further.}{%
+\subparagraph{Some cities experienced more days of extreme temperature
+per year than others, with fluxuation by year while other cities do not
+have much fluxuation. There are noticably hotter regions in California
+than others. I also see that some stations do not provide data for the
+entire time series. If I were to repeat this analysis I would try to
+find station data that provides temperature measurements for the entire
+time series for the locations I am investigating. There are some cities
+that have a significant dip in days of extreme temperatures and I am
+curious about this. I have a feeling that those dips in the data are due
+to missing data, however I am not sure on this and wont be investigating
+further.}\label{some-cities-experienced-more-days-of-extreme-temperature-per-year-than-others-with-fluxuation-by-year-while-other-cities-do-not-have-much-fluxuation.-there-are-noticably-hotter-regions-in-california-than-others.-i-also-see-that-some-stations-do-not-provide-data-for-the-entire-time-series.-if-i-were-to-repeat-this-analysis-i-would-try-to-find-station-data-that-provides-temperature-measurements-for-the-entire-time-series-for-the-locations-i-am-investigating.-there-are-some-cities-that-have-a-significant-dip-in-days-of-extreme-temperatures-and-i-am-curious-about-this.-i-have-a-feeling-that-those-dips-in-the-data-are-due-to-missing-data-however-i-am-not-sure-on-this-and-wont-be-investigating-further.}}
+
+\hypertarget{visualizing-location-of-stations-reporting-temperatures-in-california}{%
+\paragraph{\texorpdfstring{\textbf{Visualizing Location of Stations
+Reporting Temperatures in
+California}}{Visualizing Location of Stations Reporting Temperatures in California}}\label{visualizing-location-of-stations-reporting-temperatures-in-california}}
+
+\hypertarget{i-would-now-like-to-create-a-map-of-california-that-shows-the-location-of-each-station-reporting-temperature-data.-i-decided-to-take-the-average-number-of-times-there-were-extreme-temperatures-in-each-city-for-all-of-the-years-being-reported.-i-then-use-this-to-create-a-color-gradient-heat-map-that-shows-the-cooler-and-hotter-counties.-i-think-that-certain-geographic-locations-of-california-have-more-instances-of-extreme-temperature-on-average-than-other-counties.}{%
+\subparagraph{I would now like to create a map of California that shows
+the location of each station reporting temperature data. I decided to
+take the average number of times there were extreme temperatures in each
+city, for all of the years being reported. I then use this to create a
+color gradient heat map that shows the cooler and hotter counties. I
+think that certain geographic locations of California have more
+instances of extreme temperature, on average, than other
+counties.}\label{i-would-now-like-to-create-a-map-of-california-that-shows-the-location-of-each-station-reporting-temperature-data.-i-decided-to-take-the-average-number-of-times-there-were-extreme-temperatures-in-each-city-for-all-of-the-years-being-reported.-i-then-use-this-to-create-a-color-gradient-heat-map-that-shows-the-cooler-and-hotter-counties.-i-think-that-certain-geographic-locations-of-california-have-more-instances-of-extreme-temperature-on-average-than-other-counties.}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -640,30 +731,43 @@ temperatures might be related to region.
 \end{Highlighting}
 \end{Shaded}
 
-\#\#\#This is my map of the points of the station locations that were
-used. I used a heat map option to show the comparative averages of each
-station location. I can see that there are a few counties that have two
-stations reporting. I tried to resolve this error earlier but I am not
-sure how to fix this with another method. It is showing that the further
-south in California the cities are located, the higher the instances of
-extreme temperature.
+?map \#\#\#\#\# This is my map of the points of the station locations
+that were used. I used a heat map option to show the comparative average
+count of extreme temperatues documented by each station location.
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{ggplot}\NormalTok{() }\OperatorTok{+}
 \StringTok{  }\KeywordTok{geom_polygon}\NormalTok{(}\DataTypeTok{data=}\NormalTok{ca_map, }\DataTypeTok{mapping=}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ long}\OperatorTok{*}\NormalTok{.}\DecValTok{995}\NormalTok{, }\DataTypeTok{y =}\NormalTok{ lat}\OperatorTok{*}\NormalTok{.}\DecValTok{99}\NormalTok{ ), }\DataTypeTok{inherit.aes =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{fill =} \StringTok{"gold"}\NormalTok{, }\DataTypeTok{color =} \StringTok{"blue"}\NormalTok{, }\DataTypeTok{alpha =} \FloatTok{.9}\NormalTok{) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_point}\NormalTok{(}\DataTypeTok{data=}\NormalTok{all_data5, }\DataTypeTok{mapping=}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ LONGITUDE, }\DataTypeTok{y =}\NormalTok{ LATITUDE, }\DataTypeTok{color=}\NormalTok{avg)) }\OperatorTok{+}\StringTok{ }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{title =} \StringTok{"Location Based Average Counts of Temperatuve Above 104(F)"}\NormalTok{, }\DataTypeTok{x =} \StringTok{"Longitude"}\NormalTok{, }\DataTypeTok{y=} \StringTok{"Latitude"}\NormalTok{)}
+\StringTok{  }\KeywordTok{geom_point}\NormalTok{(}\DataTypeTok{data=}\NormalTok{all_data5, }\DataTypeTok{mapping=}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ LONGITUDE, }\DataTypeTok{y =}\NormalTok{ LATITUDE, }\DataTypeTok{color=}\NormalTok{avg)) }\OperatorTok{+}\StringTok{ }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{title =} \StringTok{"Location Based Average Counts of Temperature Above 105(F)"}\NormalTok{, }\DataTypeTok{x =} \StringTok{"Longitude"}\NormalTok{, }\DataTypeTok{y=} \StringTok{"Latitude"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \includegraphics{Final_Project_Submission_files/figure-latex/ca map with station locations-1.pdf}
 
-\#\#Linear Regression and Causality \#\#\#I decided to examine my data
-with a linear regression analysis. I want to see the effect that each
-variable has on temperature. Examing the regression I see that there is
-significant positive temperature change over time. However, my R-squared
-value is very low at 0.12, which tells me that I would like to have more
-data to strengthen my confidence in my results.
+\hypertarget{i-can-see-that-there-are-a-few-counties-that-have-two-stations-reporting.-i-tried-to-resolve-this-error-earlier-but-i-am-not-sure-how-to-fix-this-with-another-method.-it-is-showing-that-the-further-south-in-california-the-cities-are-located-the-higher-the-instances-of-extreme-temperatures.-also-many-of-these-locations-are-closer-to-the-valley-floor-and-have-typically-hotter-temperatres-on-average-than-locations-along-the-coast-or-in-the-foothills.-the-map-is-slightly-skewed-because-i-manipulated-its-size-to-match-the-data-points-more-accurately-as-initially-two-costal-points-were-located-in-the-pacific-ocean.-though-it-looks-a-little-strange-i-felt-that-this-wasnt-an-innacurate-manipulation-because-it-still-accurately-shows-a-general-geographical-trend-of-southern-regions-having-more-instances-of-extreme-temperatues.}{%
+\subparagraph{I can see that there are a few counties that have two
+stations reporting. I tried to resolve this error earlier but I am not
+sure how to fix this with another method. It is showing that the further
+south in California the cities are located, the higher the instances of
+extreme temperatures. Also, many of these locations are closer to the
+valley floor and have typically hotter temperatres on average than
+locations along the coast or in the foothills. The map is slightly
+skewed because I manipulated its size to match the data points more
+accurately, as initially two costal points were located in the Pacific
+Ocean. Though it looks a little strange, I felt that this wasn't an
+innacurate manipulation because it still accurately shows a general
+geographical trend of southern regions having more instances of extreme
+temperatues.}\label{i-can-see-that-there-are-a-few-counties-that-have-two-stations-reporting.-i-tried-to-resolve-this-error-earlier-but-i-am-not-sure-how-to-fix-this-with-another-method.-it-is-showing-that-the-further-south-in-california-the-cities-are-located-the-higher-the-instances-of-extreme-temperatures.-also-many-of-these-locations-are-closer-to-the-valley-floor-and-have-typically-hotter-temperatres-on-average-than-locations-along-the-coast-or-in-the-foothills.-the-map-is-slightly-skewed-because-i-manipulated-its-size-to-match-the-data-points-more-accurately-as-initially-two-costal-points-were-located-in-the-pacific-ocean.-though-it-looks-a-little-strange-i-felt-that-this-wasnt-an-innacurate-manipulation-because-it-still-accurately-shows-a-general-geographical-trend-of-southern-regions-having-more-instances-of-extreme-temperatues.}}
+
+\hypertarget{linear-regression-and-causality}{%
+\paragraph{\texorpdfstring{\textbf{Linear Regression and
+Causality}}{Linear Regression and Causality}}\label{linear-regression-and-causality}}
+
+\hypertarget{i-decided-to-examine-my-data-with-a-linear-regression-analysis.-i-want-to-see-the-effect-that-each-variable-has-on-temperature.}{%
+\subparagraph{I decided to examine my data with a linear regression
+analysis. I want to see the effect that each variable has on
+temperature.}\label{i-decided-to-examine-my-data-with-a-linear-regression-analysis.-i-want-to-see-the-effect-that-each-variable-has-on-temperature.}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -719,33 +823,40 @@ data to strengthen my confidence in my results.
 ## F-statistic:  1062 on 26 and 198737 DF,  p-value: < 2.2e-16
 \end{verbatim}
 
-\#\#Other Plot of Temperature Data \#\#\#I have taken the yearly average
-number of days of extreme temperature in all the cities per year with
-95\% confidence intervals. Signifcance is indicated by shifts beyond
-95\% confidence range for each year.
+\hypertarget{examing-the-regression-i-see-that-there-is-significant-positive-temperature-increase-over-time.-an-incrase-in-elevation-decreases-the-temperature.-city-variables-can-have-a-positive-or-negative-effect-on-temperature-depending-on-where-in-california-the-city-is-located.-however-my-r-squared-value-is-very-low-0.12-which-tells-me-that-i-would-like-to-have-more-data-to-strengthen-the-confidence-in-my-results.-i-found-this-regression-to-be-very-interesting-and-informative-for-the-effects-my-variables-have-on-my-outcome-of-temperature.}{%
+\subparagraph{Examing the regression I see that there is significant
+positive temperature increase over time. An incrase in elevation
+decreases the temperature. City variables can have a positive or
+negative effect on temperature, depending on where in California the
+city is located. However, my R-squared value is very low, 0.12, which
+tells me that I would like to have more data to strengthen the
+confidence in my results. I found this regression to be very interesting
+and informative for the effects my variables have on my outcome of
+temperature.}\label{examing-the-regression-i-see-that-there-is-significant-positive-temperature-increase-over-time.-an-incrase-in-elevation-decreases-the-temperature.-city-variables-can-have-a-positive-or-negative-effect-on-temperature-depending-on-where-in-california-the-city-is-located.-however-my-r-squared-value-is-very-low-0.12-which-tells-me-that-i-would-like-to-have-more-data-to-strengthen-the-confidence-in-my-results.-i-found-this-regression-to-be-very-interesting-and-informative-for-the-effects-my-variables-have-on-my-outcome-of-temperature.}}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{all_data }\OperatorTok{%>%}
-\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{above105 =}\NormalTok{ TMAX }\OperatorTok{>=}\StringTok{ }\DecValTok{105}\NormalTok{,}
-         \DataTypeTok{above105 =} \KeywordTok{as.numeric}\NormalTok{(above105)) }\OperatorTok{%>%}
-\StringTok{  }\KeywordTok{filter}\NormalTok{(above105}\OperatorTok{==}\DecValTok{1}\NormalTok{) }\OperatorTok{%>%}
-\StringTok{  }\KeywordTok{group_by}\NormalTok{(CITY,YEAR) }\OperatorTok{%>%}
-\StringTok{  }\KeywordTok{summarize}\NormalTok{(}\DataTypeTok{freq =} \KeywordTok{n}\NormalTok{()) }\OperatorTok{%>%}
-\StringTok{  }\KeywordTok{group_by}\NormalTok{(YEAR) }\OperatorTok{%>%}
-\StringTok{  }\KeywordTok{summarize}\NormalTok{(}\DataTypeTok{avg =} \KeywordTok{mean}\NormalTok{(freq),}
-            \DataTypeTok{stdev =} \KeywordTok{sd}\NormalTok{(freq),}
-            \DataTypeTok{upper =}\NormalTok{ avg }\OperatorTok{+}\StringTok{ }\NormalTok{(stdev}\OperatorTok{*}\FloatTok{1.96}\OperatorTok{/}\KeywordTok{sqrt}\NormalTok{(}\KeywordTok{n}\NormalTok{())),}
-            \DataTypeTok{lower =}\NormalTok{ avg }\OperatorTok{-}\StringTok{ }\NormalTok{(stdev}\OperatorTok{*}\FloatTok{1.96}\OperatorTok{/}\KeywordTok{sqrt}\NormalTok{(}\KeywordTok{n}\NormalTok{()))}
-\NormalTok{            ) }\OperatorTok{%>%}
-\StringTok{  }\KeywordTok{ggplot}\NormalTok{() }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_point}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \KeywordTok{as.character}\NormalTok{(YEAR), }\DataTypeTok{y =}\NormalTok{ avg)) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_linerange}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \KeywordTok{as.character}\NormalTok{(YEAR), }\DataTypeTok{ymax =}\NormalTok{ upper, }\DataTypeTok{ymin =}\NormalTok{ lower)) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{title =} \StringTok{"Yearly Average of Days Temperatures Above 104(F) Across Cities"}\NormalTok{, }\DataTypeTok{x=} \StringTok{"Year"}\NormalTok{, }\DataTypeTok{y=} \StringTok{"Average Number of Days"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
+\hypertarget{conclusion}{%
+\paragraph{\texorpdfstring{\textbf{Conclusion}}{Conclusion}}\label{conclusion}}
 
-\includegraphics{Final_Project_Submission_files/figure-latex/other plots of data-1.pdf}
+\hypertarget{this-project-showed-that-on-average-temperatures-do-seem-to-be-increasing-in-california-during-the-past-30-years.-i-can-see-that-some-counties-experience-increasing-counts-of-days-above-105f-as-the-years-progress-while-other-counties-do-not-often-experience-days-of-extreme-temperatures-at-all-during-the-year.-the-map-illustrates-that-the-location-of-a-city-in-california-contributes-greatly-to-the-average-count-of-days-with-extreme-temperatures.-i-found-the-regression-especially-informative-even-though-my-r-squared-value-was-quite-low.-i-can-confidenly-conclude-that-on-average-temperatures-are-indeed-increasing-throughout-california.-this-will-likely-be-a-greater-issue-in-the-future-as-global-temperatues-are-projected-to-increase-with-climate-change.-i-would-like-to-continue-this-project-and-relate-it-to-the-agricultural-sector-to-see-if-increases-in-extreme-temperatues-can-be-linked-to-decreases-in-agricultural-revenue.-i-would-also-like-to-repeat-this-analysis-with-more-comprehensive-data-for-more-station-locations-with-complete-observations-for-the-past-30-years.-i-think-this-would-increase-my-r-squared-value-in-my-linear-regression-and-provide-more-robust-results.}{%
+\subparagraph{This project showed that on average temperatures do seem
+to be increasing in California during the past 30 years. I can see that
+some counties experience increasing counts of days above 105(F) as the
+years progress while other counties do not often experience days of
+extreme temperatures at all during the year. The map illustrates that
+the location of a city in California contributes greatly to the average
+count of days with extreme temperatures. I found the regression
+especially informative, even though my R-squared value was quite low. I
+can confidenly conclude that on average temperatures are indeed
+increasing throughout California. This will likely be a greater issue in
+the future, as global temperatues are projected to increase with climate
+change. I would like to continue this project and relate it to the
+agricultural sector to see if increases in extreme temperatues can be
+linked to decreases in agricultural revenue. I would also like to repeat
+this analysis with more comprehensive data for more station locations
+with complete observations for the past 30 years. I think this would
+increase my R-squared value in my linear regression and provide more
+robust
+results.}\label{this-project-showed-that-on-average-temperatures-do-seem-to-be-increasing-in-california-during-the-past-30-years.-i-can-see-that-some-counties-experience-increasing-counts-of-days-above-105f-as-the-years-progress-while-other-counties-do-not-often-experience-days-of-extreme-temperatures-at-all-during-the-year.-the-map-illustrates-that-the-location-of-a-city-in-california-contributes-greatly-to-the-average-count-of-days-with-extreme-temperatures.-i-found-the-regression-especially-informative-even-though-my-r-squared-value-was-quite-low.-i-can-confidenly-conclude-that-on-average-temperatures-are-indeed-increasing-throughout-california.-this-will-likely-be-a-greater-issue-in-the-future-as-global-temperatues-are-projected-to-increase-with-climate-change.-i-would-like-to-continue-this-project-and-relate-it-to-the-agricultural-sector-to-see-if-increases-in-extreme-temperatues-can-be-linked-to-decreases-in-agricultural-revenue.-i-would-also-like-to-repeat-this-analysis-with-more-comprehensive-data-for-more-station-locations-with-complete-observations-for-the-past-30-years.-i-think-this-would-increase-my-r-squared-value-in-my-linear-regression-and-provide-more-robust-results.}}
 
 
 \end{document}
