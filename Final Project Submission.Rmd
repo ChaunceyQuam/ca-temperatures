@@ -207,7 +207,7 @@ all_data %>%
   labs(title = "Number of Days Each City Had Temperatures That Were Above 105(F)", x= "Year", y= "Count") +
   facet_wrap(~CITY)
 ```
-##### Some cities experienced more days of extreme temperature per year than others, with fluxuation by year while other cities do not have much fluxuation. There are noticably hotter regions in California than others. I also see that some stations do not provide data for the entire time series. If I were to repeat this analysis I would try to find station data that provides temperature measurements for the entire time series for the locations I am investigating.
+##### Some cities experienced more days of extreme temperature per year than others, with fluxuation by year while other cities do not have much fluxuation. There are noticably hotter regions in California than others. I also see that some stations do not provide data for the entire time series. If I were to repeat this analysis I would try to find station data that provides temperature measurements for the entire time series for the locations I am investigating. There are some cities that have a significant dip in days of extreme temperatures and I am curious about this. I have a feeling that those dips in the data are due to missing data, however I am not sure on this and wont be investigating further.
 
 
 
@@ -237,6 +237,9 @@ regression_model <- lm(TMAX ~ ELEVATION + as.numeric(YEAR) + factor(CITY), data 
 summary(regression_model)
 ```
 ##### Examing the regression I see that there is significant positive temperature increase over time. An incrase in elevation decreases the temperature. City variables can have a positive or negative effect on temperature, depending on where in California the city is located. However, my R-squared value is very low, 0.12, which tells me that I would like to have more data to strengthen the confidence in my results. I found this regression to be very interesting and informative for the effects my variables have on my outcome of temperature.
+
+#### Conclusion
+##### This project showed that on average temperatures do seem to be increasing in California during the past 30 years. I can see that some counties experience increasing counts of days above 105 degrees F as the years progress while other counties do not often experience days of extreme temperatures at all during the year. 
 
 
 
