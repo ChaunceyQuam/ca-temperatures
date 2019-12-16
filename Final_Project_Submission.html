@@ -314,19 +314,19 @@ $(document).ready(function () {
 </div>
 
 
-<div id="in-this-project-i-will-be-examining-daily-temperature-observations-for-selected-counties-in-california-during-the-past-30-years.-these-counties-were-selected-because-they-are-all-major-agricultural-producing-counties-in-california.-extreme-temperature-can-have-a-drastic-effect-on-crop-yield.-as-climate-in-california-changes-our-current-agricultural-production-regions-of-california-might-become-less-productive-as-temperature-increases.-this-project-attempts-to-explore-instances-of-extreme-temperatures-classified-as-temperatures-of-105-degrees-or-higher." class="section level3">
-<h3>In this project I will be examining daily temperature observations for selected counties in California during the past 30 years. These counties were selected because they are all major agricultural producing counties in California. Extreme temperature can have a drastic effect on crop yield. As climate in California changes our current agricultural production regions of California might become less productive as temperature increases. This project attempts to explore instances of extreme temperatures, classified as temperatures of 105 degrees or higher.</h3>
-<div id="load-packages-needed-for-data-analysis." class="section level4">
-<h4>Load Packages needed for data analysis.</h4>
-<pre class="r"><code># install.packages(&quot;tidyverse&quot;)
-# install.packages(&quot;tidyr&quot;)
-# install.packages(&quot;dplyr&quot;)
-# install.packages(&quot;lubridate&quot;)
-# install.packages(&quot;ggplot2&quot;)
-# install.packages(&quot;maps&quot;)
+<div id="in-this-project-i-will-be-examining-daily-temperature-observations-for-selected-counties-in-california-during-the-past-30-years-from-1989-2018.-these-counties-were-selected-because-they-are-all-major-agricultural-producing-counties-in-california.-extreme-temperature-can-have-a-drastic-effect-on-crop-yield.-as-climate-in-california-changes-our-current-agricultural-production-regions-of-california-might-become-less-productive-as-temperature-increases.-this-project-attempts-to-explore-instances-of-extreme-temperatures-classified-as-temperatures-of-105-degrees-or-higher.-this-project-will-not-explore-the-relationship-of-extreme-temperatures-and-decrease-in-crop-yeild-but-simply-tries-to-show-that-occurances-of-extreme-temperatures-have-been-increasing-in-our-state-over-the-past-30-years." class="section level3">
+<h3>In this project I will be examining daily temperature observations for selected counties in California during the past 30 years, from 1989-2018. These counties were selected because they are all major agricultural producing counties in California. Extreme temperature can have a drastic effect on crop yield. As climate in California changes our current agricultural production regions of California might become less productive as temperature increases. This project attempts to explore instances of extreme temperatures, classified as temperatures of 105 degrees or higher. This project will not explore the relationship of extreme temperatures and decrease in crop yeild but simply tries to show that occurances of extreme temperatures have been increasing in our state over the past 30 years.</h3>
+<div id="load-packages-for-data-analysis" class="section level4">
+<h4>Load Packages For Data Analysis</h4>
+<pre class="r"><code>#install.packages(&quot;tidyverse&quot;)
+#install.packages(&quot;tidyr&quot;)
+#install.packages(&quot;dplyr&quot;)
+#install.packages(&quot;lubridate&quot;)
+#install.packages(&quot;ggplot2&quot;)
+#install.packages(&quot;maps&quot;)
 library(&quot;tidyverse&quot;)</code></pre>
 <pre><code>## Warning: package 'tidyverse' was built under R version 3.5.2</code></pre>
-<pre><code>## ── Attaching packages ───────────────────────────────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
+<pre><code>## ── Attaching packages ──────────────────────────────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
 <pre><code>## ✓ ggplot2 3.2.1     ✓ purrr   0.3.3
 ## ✓ tibble  2.1.3     ✓ dplyr   0.8.3
 ## ✓ tidyr   1.0.0     ✓ stringr 1.4.0
@@ -338,7 +338,7 @@ library(&quot;tidyverse&quot;)</code></pre>
 <pre><code>## Warning: package 'dplyr' was built under R version 3.5.2</code></pre>
 <pre><code>## Warning: package 'stringr' was built under R version 3.5.2</code></pre>
 <pre><code>## Warning: package 'forcats' was built under R version 3.5.2</code></pre>
-<pre><code>## ── Conflicts ──────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+<pre><code>## ── Conflicts ─────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()</code></pre>
 <pre class="r"><code>library(&quot;dplyr&quot;)
@@ -384,8 +384,8 @@ head(all_data)</code></pre>
 </div>
 <div id="cleaning-dataset" class="section level4">
 <h4>Cleaning Dataset</h4>
-<div id="i-decided-to-omit-all-na-variables-for-temperature-using-the-code-below." class="section level5">
-<h5>I decided to omit all NA variables for temperature using the code below.</h5>
+<div id="i-decided-to-omit-all-na-variables-for-temperature-values-using-the-code-below." class="section level5">
+<h5>I decided to omit all NA variables for temperature values using the code below.</h5>
 <pre class="r"><code>all_data &lt;- all_data[complete.cases(all_data$TMAX), ]</code></pre>
 </div>
 <div id="i-seperated-the-full-date-into-three-columns-by-year-month-day." class="section level5">
@@ -403,9 +403,7 @@ head(all_data)</code></pre>
 ## rows [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
 ## 20, ...].</code></pre>
 <pre class="r"><code>all_data &lt;- all_data %&gt;%
-  select(-c(STATE, COUNTRY,x1,x2,x3,x4)) 
-# subset(all_data, select = -c(STATE, COUNTRY,x1,x2,x3,x4))
-# all_data &lt;- unite(all_data, CITY, select =CITY, sep = &quot; &quot;)
+  select(-c(STATE, COUNTRY,x1,x2,x3,x4))
 head(all_data)</code></pre>
 <pre><code>## # A tibble: 6 x 10
 ##   STATION  CITY  LATITUDE LONGITUDE ELEVATION YEAR  MONTH DAY    TMAX  TMIN
@@ -447,8 +445,8 @@ unique(all_data$CITY)</code></pre>
 ## [22] &quot;HANFORD&quot;             &quot;DELANO&quot;              &quot;COALINGA&quot;           
 ## [25] &quot;MERCED&quot;</code></pre>
 </div>
-<div id="i-also-notice-that-there-are-some-cities-that-have-two-observation-stations-reporting-data.-i-remove-these-double-counts-so-as-not-to-bias-my-results." class="section level5">
-<h5>I also notice that there are some cities that have two observation stations reporting data. I remove these double counts so as not to bias my results.</h5>
+<div id="i-also-notice-that-there-are-some-cities-that-have-two-observation-stations-reporting-data.-i-want-to-remove-these-double-counts-to-avoid-a-bias-my-results." class="section level5">
+<h5>I also notice that there are some cities that have two observation stations reporting data. I want to remove these double counts to avoid a bias my results.</h5>
 <pre class="r"><code>all_data &lt;- all_data %&gt;%
        distinct(CITY,YEAR,MONTH,DAY, .keep_all = TRUE)
 nrow(all_data)</code></pre>
