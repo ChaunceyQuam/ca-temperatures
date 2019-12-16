@@ -1,8 +1,5 @@
 
-*add travis-ci badge here*
-
-## Team Members:
-
+[![Build Status](https://travis-ci.com/espm-157/individual-final-project-ChaunceyQuam.svg?token=PDP11MwdLNKu1ZrvFoxt&branch=master)](https://travis-ci.com/espm-157/individual-final-project-ChaunceyQuam)
 - full name, github handle
 - full name, github handle
 
