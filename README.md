@@ -1,9 +1,7 @@
 
 [![Build Status](https://travis-ci.com/espm-157/individual-final-project-ChaunceyQuam.svg?token=PDP11MwdLNKu1ZrvFoxt&branch=master)](https://travis-ci.com/espm-157/individual-final-project-ChaunceyQuam)
-- full name, github handle
-- full name, github handle
+- Chauncey Quam, ChaunceyQuam
 
-This repository is a template for your team's repository.
 
 ## assignment
 
@@ -18,6 +16,7 @@ All team repositories will also include most of the special files found here:
 - `README.md` this file, a general overview of the repository in markdown format.  
 - `.gitignore` Optional file, ignore common file types we don't want to accidentally commit to GitHub. Most projects should use this. 
 - `<REPO-NAME>.Rproj` Optional, an R-Project file created by RStudio for it's own configuration.  Some people prefer to `.gitignore` this file.
+- 'CSV data files' is a folder containing my csv files.
 
 
 ### Infrastructure for Testing
