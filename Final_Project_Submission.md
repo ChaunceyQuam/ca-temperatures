@@ -1,3 +1,5 @@
+### Final Project- Examing Occurances of Extreme Temperatures in California Between 1989-2018
+
 #### *In this project I will be examining daily temperature observations for selected counties in California during the past 30 years, from 1989-2018. These counties were selected because they are all major agricultural producing counties in California. Extreme temperature can have a drastic effect on crop yield. As climate in California changes our current agricultural production regions of California might become less productive with longer instances of days with extreme temperatures. This project attempts to explore instances of extreme temperatures, classified in this study as temperatures of 105 degrees or higher, to see if temperatures are rising in California. This project will not explore the relationship of extreme temperatures and decrease in crop yeild but simply tries to show that occurences of extreme temperatures have been increasing in our state over the past 30 years.*
 
 #### **Load Packages For Data Analysis**
@@ -339,9 +341,7 @@
     ca_map <- ca_map %>%
       filter(region == "california")
 
-?map \#\#\#\#\# This is my map of the points of the station locations
-that were used. I used a heat map option to show the comparative average
-count of extreme temperatues documented by each station location.
+##### This is my map of the points of the station locations that were used. I used a heat map option to show the comparative average count of extreme temperatues documented by each station location.
 
     ggplot() +
       geom_polygon(data=ca_map, mapping=aes(x = long*.995, y = lat*.99 ), inherit.aes = FALSE, fill = "gold", color = "blue", alpha = .9) +
