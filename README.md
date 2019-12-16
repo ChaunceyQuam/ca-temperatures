@@ -4,8 +4,9 @@
 
 
 ## assignment
+Unfortunately I am unable to place my `.md` file into the  `assignment` directory so it is located in the main file directory.
 
-All work for this assignment should be in the `assignment` directory.  You will work in the `.Rmd` notebook, and commit your rendered output files (`.md` and associated files) in the `assignment` directory as well.
+All work for this assignment should be in the `assignment` directory. You will work in the `.Rmd` notebook, and commit your rendered output files (`.md` and associated files) in the `assignment` directory as well.
 
 ## Special files
 
