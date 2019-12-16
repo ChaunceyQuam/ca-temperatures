@@ -8,22 +8,24 @@ output:
 
 ```{r setup, include=FALSE}
 ```
-### In this project I will be examining daily temperature observations for selected counties in California during the past 30 years. These counties were selected because they are all major agricultural producing counties in California. Extreme temperature can have a drastic effect on crop yield. As climate in California changes our current agricultural production regions of California might become less productive as temperature increases. This project attempts to explore instances of extreme temperatures, classified as temperatures of 105 degrees or higher.
+### In this project I will be examining daily temperature observations for selected counties in California during the past 30 years, from 1989-2018. These counties were selected because they are all major agricultural producing counties in California. Extreme temperature can have a drastic effect on crop yield. As climate in California changes our current agricultural production regions of California might become less productive as temperature increases. This project attempts to explore instances of extreme temperatures, classified as temperatures of 105 degrees or higher. This project will not explore the relationship of extreme temperatures and decrease in crop yeild but simply tries to show that occurances of extreme temperatures have been increasing in our state over the past 30 years. 
 
 
 #### Load Packages needed for data analysis. 
 ```{r load packages}
-# install.packages("tidyverse")
-# install.packages("tidyr")
-# install.packages("dplyr")
-# install.packages("lubridate")
-# install.packages("ggplot2")
-# install.packages("maps")
+install.packages("tidyverse")
+install.packages("tidyr")
+install.packages("dplyr")
+install.packages("lubridate")
+install.packages("ggplot2")
+install.packages("maps")
+install.packages("piggyback")
 library("tidyverse")
 library("dplyr")
 library("lubridate")
 library("ggplot2")
 library("maps")
+library("piggyback")
 ```
 
 
