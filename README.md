@@ -1,5 +1,5 @@
 
-*add travis-ci badge here*
+https://travis-ci.com/espm-157/individual-final-project-ChaunceyQuam
 
 ## Team Members:
 
