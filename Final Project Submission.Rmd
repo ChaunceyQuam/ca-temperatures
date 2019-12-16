@@ -4,8 +4,8 @@ title: Final Project- Examing Occurances of Extreme Temperatures in California B
 author: "Chauncey Quam"
 date: "11/15/2019"
 output:
-  pdf_document: default
   html_document: default
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
