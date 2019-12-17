@@ -4,9 +4,8 @@
 
 
 ## assignment
-Unfortunately I am unable to place my `.md` file into the  `assignment` directory so it is located in the main file directory.
-
-All work for this assignment should be in the `assignment` directory. You will work in the `.Rmd` notebook, and commit your rendered output files (`.md` and associated files) in the `assignment` directory as well.
+My final project is titled `Final_Project_Submission.md`. Unfortunately I am unable to commit my rendered output file `Final_Project_Submission.md` into the  `assignment` directory so it is located in the main file directory.
+There are accompanying files for this assignment located in the `assignment` directory. My work is located in the `.Rmd` notebook.
 
 ## Special files
 
@@ -17,7 +16,7 @@ All team repositories will also include most of the special files found here:
 - `README.md` this file, a general overview of the repository in markdown format.  
 - `.gitignore` Optional file, ignore common file types we don't want to accidentally commit to GitHub. Most projects should use this. 
 - `<REPO-NAME>.Rproj` Optional, an R-Project file created by RStudio for it's own configuration.  Some people prefer to `.gitignore` this file.
-- `CSV data files` is a folder containing necessary csv files.
+- `CSV data files` is a folder containing necessary csv files for the analysis.
 
 
 ### Infrastructure for Testing
