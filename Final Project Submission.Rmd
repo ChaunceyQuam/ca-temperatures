@@ -17,6 +17,7 @@ output:
 #### *In this project I will be examining daily temperature observations for selected counties in California during the past 30 years, from 1989-2018. This analysis attempts to explore instances of extreme temperatures, defined in this study as temperatures at or above 105 degrees, to understand if temperatures are rising in California. Occurances of extreme temperature can have a drastic effect on crop yield. As climate in California changes our current agricultural production regions of California might become less productive with longer instances of days with extreme temperatures. These counties were selected because they are all major agricultural producing counties in California. This project will not explore the relationship of extreme temperatures and decrease in crop yeild at this time, but simply tries to show that instances of extreme temperatures in California have been increasing over the past 30 years.*
 
 
+
 #### __Load Packages For Data Analysis__
 ```{r load packages}
 #install.packages("tidyverse")
