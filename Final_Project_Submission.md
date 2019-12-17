@@ -1,6 +1,6 @@
 ### Final Project- Examing Occurances of Extreme Temperatures in California Between 1989-2018
 
-#### *In this project I will be examining daily temperature observations for selected counties in California during the past 30 years, from 1989-2018. These counties were selected because they are all major agricultural producing counties in California. Extreme temperature can have a drastic effect on crop yield. As climate in California changes our current agricultural production regions of California might become less productive with longer instances of days with extreme temperatures. This project attempts to explore instances of extreme temperatures, classified in this study as temperatures of 105 degrees or higher, to see if temperatures are rising in California. This project will not explore the relationship of extreme temperatures and decrease in crop yeild but simply tries to show that occurences of extreme temperatures have been increasing in our state over the past 30 years.*
+#### *In this project I will be examining daily temperature observations for selected counties in California during the past 30 years, from 1989-2018. This analysis attempts to explore instances of extreme temperatures, defined in this study as temperatures at or above 105 degrees, to understand if temperatures are rising in California. Occurances of extreme temperature can have a drastic effect on crop yield. As climate in California changes our current agricultural production regions of California might become less productive with longer instances of days with extreme temperatures. These counties were selected because they are all major agricultural producing counties in California. This project will not explore the relationship of extreme temperatures and decrease in crop yeild at this time, but simply tries to show that instances of extreme temperatures in California have been increasing over the past 30 years.*
 
 #### **Load Packages For Data Analysis**
 
@@ -14,7 +14,7 @@
 
     ## Warning: package 'tidyverse' was built under R version 3.5.2
 
-    ## ── Attaching packages ──────────────────────────────────────────────────────────────────────────── tidyverse 1.3.0 ──
+    ## ── Attaching packages ───────────────────────────────────────────────────────────── tidyverse 1.3.0 ──
 
     ## ✓ ggplot2 3.2.1     ✓ purrr   0.3.3
     ## ✓ tibble  2.1.3     ✓ dplyr   0.8.3
@@ -35,7 +35,7 @@
 
     ## Warning: package 'forcats' was built under R version 3.5.2
 
-    ## ── Conflicts ─────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+    ## ── Conflicts ──────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
     ## x dplyr::filter() masks stats::filter()
     ## x dplyr::lag()    masks stats::lag()
 
@@ -107,21 +107,7 @@
 
     all_data <- all_data %>%
       select(-c(STATE, COUNTRY,x1,x2,x3,x4))
-    head(all_data)
-
-    ## # A tibble: 6 x 10
-    ##   STATION  CITY  LATITUDE LONGITUDE ELEVATION YEAR  MONTH DAY    TMAX  TMIN
-    ##   <chr>    <chr>    <dbl>     <dbl>     <dbl> <chr> <chr> <chr> <int> <int>
-    ## 1 USC0004… BLYT…     33.6     -115.      81.7 1989  01    01       61    NA
-    ## 2 USC0004… BLYT…     33.6     -115.      81.7 1989  01    02       65    28
-    ## 3 USC0004… BLYT…     33.6     -115.      81.7 1989  01    03       65    40
-    ## 4 USC0004… BLYT…     33.6     -115.      81.7 1989  01    04       64    49
-    ## 5 USC0004… BLYT…     33.6     -115.      81.7 1989  01    05       65    39
-    ## 6 USC0004… BLYT…     33.6     -115.      81.7 1989  01    06       55    40
-
-##### Check to see what every city name is.
-
-    unique(all_data$CITY) 
+    unique(all_data$CITY)
 
     ##  [1] "BLYTHE"     "SQUAW"      "GOLD"       "PICACHO"    "BARSTOW"   
     ##  [6] "IMPERIAL"   "LORAINE"    "CAHUILLA"   "BUTTERCUP"  "HOLLISTER" 
@@ -151,6 +137,10 @@
     ## [22] "HANFORD"             "DELANO"              "COALINGA"           
     ## [25] "MERCED"
 
+    nrow(all_data)
+
+    ## [1] 232781
+
 ##### I also notice that there are some cities that have two observation stations reporting data. I want to remove these double counts to avoid a bias in my results.
 
     all_data <- all_data %>%
@@ -159,9 +149,11 @@
 
     ## [1] 198764
 
+##### I see that the count was reduced by around 34,000 points. I feel comfortable that I removed a reasonable amount of cities with two observation stations but I am not confident that all were removed.
+
 #### **Exploring Temperature Data**
 
-##### I begin by isolating the occurences of extreme temperature above 105 degrees and count total occurences of extreme temperature by year and by city. I create a table that I can use to visually explore my data. Some cities do not have any occurences of extreme temperature and give back an NA value in the table.
+##### I begin by isolating the occurences of extreme temperature of 105 degrees and above and count total occurences of extreme temperature by year and by city. I create a table that I can use to visually explore my data. Some cities do not have any occurences of extreme temperature and give back an NA value in the table.
 
     #create dummy variable for when average temp is above 105
     # avg count above 105 btwn 1989-2010. 
@@ -195,7 +187,7 @@
     ## #   `2010` <int>, `2011` <int>, `2012` <int>, `2013` <int>, `2014` <int>,
     ## #   `2015` <int>, `2016` <int>, `2017` <int>, `2018` <int>
 
-##### I see that some cities have high occurences of extreme temperatures while others have none.
+##### I see that some cities have high counts of extreme temperatures per year while others have none. It seems that some cities are hotter in general than others.
 
 ##### I now want to see cumulative counts of extreme temperature by year. My first question is if occurences of extreme temperatures are increasing throughout California. I want to see if my yearly data from all of the selected cities have volatile counts or trends.
 
@@ -259,9 +251,9 @@
 
 ![](Final_Project_Submission_files/figure-markdown_strict/plot%20of%20average%20yearly%20counts%20of%20extreme%20tempaverages-1.png)
 
-##### This plot is slightly different than the first plot. I feel more comfortable with the graph that shows the average aggregate count of days with extreme temperatures. However they are both showing the same trend of increasing aggregate counts of days with extreme temperatures.
+##### This plot is slightly different than the first plot. However they are both showing the same trend of increasing aggregate counts of days with extreme temperatures. I feel more confident w in the accuracy of the graph that shows the average aggregate count of days with extreme temperatures because it is a way to account for the differences per year of days with temperature data reported.
 
-##### I have taken the yearly average number of days of extreme temperature in all the cities per year with 95% confidence intervals. Signifcance is indicated by shifts beyond 95% confidence range for each year.
+##### I now take the yearly average number of days of extreme temperature in all the cities per year with 95% confidence intervals. Signifcance is indicated by shifts beyond 95% confidence range for each year.
 
     all_data %>%
       mutate(above105 = TMAX >= 105,
@@ -282,9 +274,9 @@
 
 ![](Final_Project_Submission_files/figure-markdown_strict/other%20plots%20of%20data-1.png)
 
-##### This shows that there are sligtly large error bars, but in general the average aggregate count of days with extreme temperatures per year is slightly increasing.
+##### This shows that there are sligtly large error bars, but in general the average aggregate count of days with extreme temperatures per year is increasing. I feel that all of these plots illustrate that there are an increasing number of days with extreme temperatures happening in California.
 
-##### I want to examine my data more closely to understand average counts of days with extreme temperature by city. I created a new table with the spread of counted times that temperature was above 105 per year in each city.
+##### I still want to examine my data more closely to understand average counts of days with extreme temperature, grouped by city. I created a new table with the spread of counted times that temperature was above 105 per year in each city.
 
     all_data5 <- all_data %>%
       mutate(above105 = TMAX >= 105,
@@ -313,7 +305,7 @@
 
 ![](Final_Project_Submission_files/figure-markdown_strict/bar%20chart%20of%20averages-1.png)
 
-##### This histogram is very cluttered along the x axis with city names. Instead of a bar chart I would like to see these yearly counts of extreme temperature for each city. It does show that some cities have much larger average counts than other cities. I want to more closely examine the yearly count of extreme temperatures in each city.
+##### This histogram is very cluttered along the x axis with city names. It does show that some cities have much larger average counts than other cities. I want to more closely examine the yearly count of extreme temperatures in each city. Instead of a bar chart I would like to see counts of extreme temperature for each city plotted by year.
 
 ##### I seperate the counts of days per year each city had extreme temperatures, showing the total days per year for each city.
 
@@ -331,7 +323,7 @@
 
 ![](Final_Project_Submission_files/figure-markdown_strict/yearly%20counts%20by%20city-1.png)
 
-##### Some cities experienced more days of extreme temperature per year than others, with fluxuation by year while other cities do not have much fluxuation. There are noticably hotter regions in California than others. I also see that some stations do not provide data for the entire time series. If I were to repeat this analysis I would try to find station data that provides temperature measurements for the entire time series for the locations I am investigating. There are some cities that have a significant dip in days of extreme temperatures and I am curious about this. I have a feeling that those dips in the data are due to missing data, however I am not sure on this and wont be investigating further.
+##### Some cities experienced more days of extreme temperature per year than others, with fluxuation by year while other cities do not have much fluxuation. There are noticably hotter regions in California than others. I also see that some stations do not provide data for the entire time series. If I were to repeat this analysis I would try to find station data that provides temperature measurements for the entire time series for the locations I am investigating. There are some cities that have a significant dip in days of extreme temperatures and I am curious about this. I have a feeling that those dips in the data are due to missing data, however I am not sure on this but will not be investigating further.
 
 #### **Visualizing Location of Stations Reporting Temperatures in California**
 
@@ -349,7 +341,7 @@
 
 ![](Final_Project_Submission_files/figure-markdown_strict/ca%20map%20with%20station%20locations-1.png)
 
-##### I can see that there are a few counties that have two stations reporting. I tried to resolve this error earlier but I am not sure how to fix this with another method. It is showing that the further south in California the cities are located, the higher the instances of extreme temperatures. Also, many of these locations are closer to the valley floor and have typically hotter temperatres on average than locations along the coast or in the foothills. The map is slightly skewed because I manipulated its size to match the data points more accurately, as initially two costal points were located in the Pacific Ocean. Though it looks a little strange, I felt that this wasn’t an innacurate manipulation because it still accurately shows a general geographical trend of southern regions having more instances of extreme temperatues.
+##### You can see from the legend that this map is showing average counts of days with extreme temperature for each town. It shows that the further south in California the cities are located, the higher the instances of extreme temperatures. Also, many of these locations are closer to the valley floor and have typically hotter temperatres on average than selected locations along the coast or in the foothills. The map is slightly skewed because I minimally manipulated its size to match the data points true locations more accurately, as when initially plotted two costal points were located in the Pacific Ocean. Though it looks a little strange, I felt that this was an insignificant manipulation because it still accurately shows a general geographical trend of southern regions having more instances of extreme temperatues. I can also see that there are a few locations that have two stations reporting data. I tried to resolve this error earlier but I am not sure how to fix this with another method.
 
 #### **Linear Regression and Causality**
 
@@ -403,8 +395,8 @@
     ## Multiple R-squared:  0.122,  Adjusted R-squared:  0.1219 
     ## F-statistic:  1062 on 26 and 198737 DF,  p-value: < 2.2e-16
 
-##### Examing the regression I see that there is significant positive temperature increase over time. An incrase in elevation decreases the temperature. City variables can have a positive or negative effect on temperature, depending on where in California the city is located. However, my R-squared value is very low, 0.12, which tells me that I would like to have more data to strengthen the confidence in my results. I found this regression to be very interesting and informative for the effects my variables have on my outcome of temperature.
+##### This regression analysis is very informative. Examing the regression I see that there is positive temperature increase over time, with each year increasing temperature by 0.055 degrees F. An incrase in elevation decreases the temperature by -0.003 per foot. City variables can have a positive or negative effect on temperature, depending on where in California the city is located. Also many of my variables are statistically significant, specifically y my year variable of interest. However, my R-squared value is very low, 0.12, which tells me that I would like to have more data to strengthen the confidence of my results. I found this regression to be a very interesting and helpful way to examine the effects these variables have on the outcome of temperature.
 
 #### **Conclusion**
 
-##### This project showed that on average temperatures do seem to be increasing in California during the past 30 years. I can see that some counties experience increasing counts of days above 105(F) as the years progress while other counties do not often experience days of extreme temperatures at all during the year. The map illustrates that the location of a city in California contributes greatly to the average count of days with extreme temperatures. I found the regression especially informative, even though my R-squared value was quite low. I can confidenly conclude that on average temperatures are indeed increasing throughout California. This will likely be a greater issue in the future, as global temperatues are projected to increase with climate change. I would like to continue this project and relate it to the agricultural sector to see if increases in extreme temperatues can be linked to decreases in agricultural revenue. I would also like to repeat this analysis with more comprehensive data for more station locations with complete observations for the past 30 years. I think this would increase my R-squared value in my linear regression and provide more robust results.
+##### This project showed that on average temperatures do seem to be increasing in California during the past 30 years. I can see that some counties experience increasing counts of days at or above 105 degrees F as the years progress, while other counties do not often experience days of extreme temperatures at all during the year. The map illustrates that the location of a city in California contributes greatly to the average count of days with extreme temperatures. I found the regression especially informative, even though my R-squared value was quite low. I can confidenly conclude that on average temperatures are indeed increasing throughout California. I found that location does effect how often a city will likely experience extreme temperatures. The linear regression equated the impact and significance that variables such as time, elevation, and location have on the outcome of temperature. This will likely be a great issue in the future, as global temperatues are projected to increase with climate change. I would like to continue this project and relate it to data from the agricultural sector to see if increases in extreme temperatues can be linked to decreases in agricultural revenue. I would also like to repeat this analysis with more comprehensive and complete data for more station locations in California for the past 30 years. I think including more complete data would increase my R-squared value in my linear regression and provide more robust results in my analysis.
